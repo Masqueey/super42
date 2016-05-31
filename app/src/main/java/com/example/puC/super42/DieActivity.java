@@ -1,9 +1,7 @@
-package com.example.max.myapplication;
+package com.example.puC.super42;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
-import com.example.medard.mycanvasapp2.R;
 
 public class DieActivity extends AppCompatActivity {
 

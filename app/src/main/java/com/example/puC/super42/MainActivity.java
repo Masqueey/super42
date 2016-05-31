@@ -1,17 +1,16 @@
-package com.example.max.myapplication;
+package com.example.puC.super42;
 
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,6 +24,9 @@ public class MainActivity extends AppCompatActivity {
     public static float screenWidth;
     public static float screenHeight;
     public static regularGame regularGame;
+    public static MediaPlayer mp;
+    public static MediaPlayer mp2;
+    private static Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +41,8 @@ public class MainActivity extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         screenHeight = metrics.heightPixels;
         screenWidth = metrics.widthPixels;
-       // Log.d("screenHeight", ""+screenHeight);
-       // Log.d("screenWidth", ""+screenWidth);
-       // Log.d("points: ", ""+regularGame.getPoints());
-
+        context = MainActivity.this;
+        mp2 = MediaPlayer.create(context, R.raw.spawn);
 
 
         /**
@@ -262,5 +262,27 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("Score",regularGame.getPoints());
         intent.putExtra("FortyTwos",regularGame.getnrOfFortyTwos());
         startActivity(intent);
+    }
+
+    public static void playSound(Audio.sounds s) {
+        Log.d("playSound", "s,toString()" +  s.toString());
+        if (s.toString().equals(Audio.sounds.spawn.toString())) {
+            Log.d("playSound", "spawn sound");
+            mp2.start();
+            return;
+        }
+
+        int id = context.getResources().getIdentifier(s.toString(), "raw", context.getPackageName());
+        if (mp != null) {
+            mp.reset();
+            mp.release();
+        }
+        mp = MediaPlayer.create(context, id);
+        if (mp.isPlaying()) {
+            mp.pause();
+            mp.seekTo(0);
+            mp.start();
+        }else
+            mp.start();
     }
 }

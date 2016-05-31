@@ -1,12 +1,10 @@
-package com.example.max.myapplication;
+package com.example.puC.super42;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 import android.view.MotionEvent;
-import android.view.SurfaceView;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -16,7 +14,9 @@ import java.util.List;
  * Created by Medard on 16-May-16.
  */
 public class MyView extends View implements View.OnClickListener{
-    List<Paintable> paintableObjects = new ArrayList<Paintable>();;
+    List<Paintable> paintableObjects = new ArrayList<Paintable>();
+    public static float canvasWidth = 0;
+    public static float canvasHeight = 0;
 
     public Bal bal;
 
@@ -52,6 +52,10 @@ public class MyView extends View implements View.OnClickListener{
 
 
     protected void onDraw(Canvas c) {
+        if (0 == canvasHeight) {
+            canvasHeight = c.getHeight();
+            canvasWidth = c.getWidth();
+        }
 
         for (int i = 0; i < paintableObjects.size(); i++) {
             paintableObjects.get(i).paint(c);

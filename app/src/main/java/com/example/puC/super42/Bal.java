@@ -1,9 +1,8 @@
-package com.example.max.myapplication;
+package com.example.puC.super42;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -120,21 +119,24 @@ public class Bal implements Paintable {
         // bounce on edges.
         double pi = Math.PI;
         if (centerX >= w - radius) {
-            centerX = w - radius;
-            direction = direction < pi ? pi - direction : 2*pi - direction + pi;
+            direction = direction < pi ? pi - direction : 2 * pi - direction + pi;
         }
         if (centerX <= radius) { // 0 + radius
-            centerX = radius;
-            direction = direction < pi ? pi - direction : 2*pi - direction + pi;
+            direction = direction < pi ? pi - direction : 2 * pi - direction + pi;
         }
         if (centerY >= h - radius) {
-            centerY = h - radius;
-            direction = 2*pi - direction;
+            direction = 2 * pi - direction;
         }
         if (centerY <= radius) { // 0 + radius
-            centerY = radius;
-            direction = 2*pi - direction;
+            direction = 2 * pi - direction;
         }
+
+        float[] checked = checkCoord(new float[]{centerX, centerY});
+        if (centerX != checked[0] || centerY != checked[1]) {
+            MainActivity.playSound(Audio.sounds.bounce);
+        }
+        centerX = checked[0];
+        centerY = checked[1];
 
     }
 
@@ -157,6 +159,24 @@ public class Bal implements Paintable {
 
         direction = Math.toRadians(angle);
         return  Math.toRadians(angle);
+    }
+
+    public float[] checkCoord(float[] coord) {
+        float w = MyView.canvasWidth;
+        float h = MyView.canvasHeight;
+        float x = coord[0];
+        float y = coord[1];
+
+        if (x >= w - radius) {
+            x = w - radius;
+        } else if (x <= radius) // 0 + radius
+            x = radius;
+
+        if (y >= h - radius)
+            y = h - radius;
+        else if (y <= radius) // 0 + radius
+            y = radius;
+        return new float[]{x, y};
     }
 
     /**
@@ -199,7 +219,12 @@ public class Bal implements Paintable {
     public void addPath(float[] coord) {
         if (coord.length != 2)
             return;
-        path.add(new float[] {coord[0], coord[1]});
+
+        float[] checked = checkCoord(new float[]{coord[0], coord[1]});
+        coord[0] = checked[0];
+        coord[1] = checked[1];
+
+        path.add(new float[]{coord[0], coord[1]});
     }
 
     public void setIsSelected(boolean b) {

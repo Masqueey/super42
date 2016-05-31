@@ -1,16 +1,12 @@
-package com.example.max.myapplication;
+package com.example.puC.super42;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.MenuItem;
-import android.view.Menu;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageButton;
-
-
-import com.example.medard.mycanvasapp2.R;
 
 public class StartUp extends AppCompatActivity {
 /**
@@ -24,10 +20,15 @@ public class StartUp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         myview = new MyView(this);
+        // Hide the Title Bar
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         setContentView(R.layout.activity_start_up);
         onImageButtonClickListener();
 
-
+        // Hide the Status Bar
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+        WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
 
