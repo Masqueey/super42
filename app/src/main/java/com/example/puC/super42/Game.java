@@ -1,4 +1,4 @@
-package com.example.max.myapplication;
+package com.example.puC.super42;
 
 /**
  * Created by Gijs on 25-5-2016.

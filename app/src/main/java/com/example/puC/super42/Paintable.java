@@ -1,4 +1,4 @@
-package com.example.max.myapplication;
+package com.example.puC.super42;
 
 import android.graphics.Canvas;
 

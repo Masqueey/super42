@@ -1,9 +1,4 @@
-package com.example.max.myapplication;
-
-import android.os.Bundle;
-import android.util.Log;
-
-import com.example.medard.mycanvasapp2.R;
+package com.example.puC.super42;
 
 import java.util.ArrayList;
 import java.util.List;
