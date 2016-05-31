@@ -24,7 +24,7 @@ public class Bal implements Paintable {
     private final float ratio;
     private int size;
     private float sizeAdjustment;
-
+    //testregel voor Git
     public Bal(int centerX, float centerY, float direction, float radius, int val, int size) {
         sizeAdjustment = (float)(size > 30 ? 2.56 : (float)(( Math.pow( (double)size + 50, 2) / 2500)));
         paintbal = new Paint();
