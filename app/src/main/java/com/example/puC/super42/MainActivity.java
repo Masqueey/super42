@@ -347,7 +347,7 @@ public class MainActivity extends AppCompatActivity {
             while ((s = br.readLine()) != null) {
                 res += s + "\n";
             }
-            br.close(); 
+            br.close();
         } catch (IOException e) {
             Log.d("readHighscores", e.toString());
         }
