@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class regularGame  {
+public class RegularGame {
 
     private int points;
     private List <Bal> balls;
@@ -13,7 +13,7 @@ public class regularGame  {
     private int nrOfFortyTwos;
 
 
-    regularGame(){
+    RegularGame(){
         balls = new ArrayList<Bal>();
         points = 0;
         maxValue = 42;

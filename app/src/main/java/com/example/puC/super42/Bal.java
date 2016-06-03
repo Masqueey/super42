@@ -3,27 +3,23 @@ package com.example.puC.super42;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 
 import java.util.ArrayList;
 
 
 public class Bal implements Paintable {
-    public static final float initialRadius = 70;
-    private int val;
+    public static final float initialRadius = 50;
     private float speed = 12;
-    private Paint painttext;
-    private Paint paintbal;
-    private Paint paintline;
-    private float centerX;
-    private float centerY;
+    private Paint painttext, paintbal, paintline;
+    private float centerX, centerY, radius, sizeAdjustment;
     private double direction;
-    private float radius;
     private boolean isSelected;
     private ArrayList<float[]> path;
     private final float ratio;
-    private int size;
-    private float sizeAdjustment;
-    //testregel voor Git
+    private int size, val;
+    private float pathLength = 0;
+
     public Bal(int centerX, float centerY, float direction, float radius, int val, int size) {
         sizeAdjustment = (float)(size > 30 ? 2.56 : (float)(( Math.pow( (double)size + 50, 2) / 2500)));
         paintbal = new Paint();
@@ -32,10 +28,9 @@ public class Bal implements Paintable {
         painttext = new Paint();
         painttext.setColor(Color.WHITE);
         painttext.setTextAlign(Paint.Align.CENTER);
-        ratio = MainActivity.screenWidth < 720 ? (float)(MainActivity.screenWidth  / 1080.0) : 1;
+        ratio = MainActivity.screenWidth / 720;
         this.radius =  ratio * initialRadius * sizeAdjustment;
         painttext.setTextSize((float) (radius * 0.75));
-      //  Log.d("Bal", "radius=" + radius + " sizeAdjustment=" + sizeAdjustment + " size=" + size);
         paintline = new Paint();
         paintline.setStrokeWidth(12);
         paintline.setColor(paintbal.getColor());
@@ -99,13 +94,13 @@ public class Bal implements Paintable {
                 }
 
                 //change the this.direction variable of the ball in case it is possible for the pad to end.
-                this.direction = PointsToRadians(y,centerY,x,centerX);
+                direction = PointsToRadians(y,centerY,x,centerX);
 
                 centerX += correction * (x - centerX);
                 centerY += correction * (y - centerY);
             }
             isSelected = false;
-
+            pathLength -= distance;
             return;
         }
 
@@ -151,11 +146,9 @@ public class Bal implements Paintable {
     }
 
     private double PointsToRadians(float targetY,float  sourceY,float targetX, float sourceX){
-
         double angle =   Math.toDegrees(Math.atan2(targetY - sourceY, targetX - sourceX));
-        if(angle < 0){
+        if(angle < 0)
             angle += 360;
-        }
 
         direction = Math.toRadians(angle);
         return  Math.toRadians(angle);
@@ -217,12 +210,21 @@ public class Bal implements Paintable {
     }
 
     public void addPath(float[] coord) {
-        if (coord.length != 2)
+        if (coord.length != 2 || pathLength > 720.0 * 2 * ratio)
             return;
 
         float[] checked = checkCoord(new float[]{coord[0], coord[1]});
         coord[0] = checked[0];
         coord[1] = checked[1];
+
+        if (path.size() > 1) {
+            float[] last = path.get(path.size() - 1);
+            pathLength += Math.sqrt(
+                        Math.pow( Math.abs(last[0] - checked[0]), 2.0)
+                    +
+                        Math.pow( Math.abs(last[1] - checked[1]), 2)
+                );
+        }
 
         path.add(new float[]{coord[0], coord[1]});
     }
