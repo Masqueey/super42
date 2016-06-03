@@ -28,5 +28,14 @@ public class MenuActivity extends AppCompatActivity {
                 startActivity(new Intent(MenuActivity.this,MainActivity.class));
             }
         });
+
+        imageView = (ImageView) findViewById(R.id.highscores);
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MenuActivity.this,Highscores.class));
+            }
+        });
     }
 }

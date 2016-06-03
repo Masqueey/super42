@@ -4,14 +4,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
+import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
     /**
@@ -19,20 +28,20 @@ public class MainActivity extends AppCompatActivity {
      * @param balSelected : the Bal that is currently selected and used to make a path for
      */
     public static MyView myview;
-    private Bal balSelected;
     public static Random r = new Random();
-    public static float screenWidth;
-    public static float screenHeight;
-    public static regularGame regularGame;
-    public static MediaPlayer mp;
-    public static MediaPlayer mp2;
+    public static float screenWidth, screenHeight;
+    public static RegularGame regularGame;
+    public static MediaPlayer mp, mp2;
     private static Context context;
+    private final String highscorePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/highscores.txt";
+    private Bal balSelected;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.regularGame = new regularGame();
-        if(!regularGame.getAlive()) {
+        this.regularGame = new RegularGame();
+        if (!regularGame.getAlive()) {
             openDieActivity();
         }
 
@@ -43,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
         screenWidth = metrics.widthPixels;
         context = MainActivity.this;
         mp2 = MediaPlayer.create(context, R.raw.spawn);
-
 
         /**
          * Touch listener for whole screen
@@ -60,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                         if (null != bal && bal.getPath().size() == 0) {
                             balSelected = bal;
                             balSelected.setIsSelected(true);
-                            balSelected.addPath(new float[] {x, y});
+                            balSelected.addPath(new float[]{x, y});
                         }
                         break;
                     // On swipe (so after the first touch and keeping touching)
@@ -69,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                             balSelected = bal;
                             balSelected.setIsSelected(true);
                             balSelected.addPath(new float[]{x, y});
-                        }else if(null != balSelected) {
+                        } else if (null != balSelected) {
                             balSelected.setIsSelected(true);
                             balSelected.addPath(new float[]{x, y});
                         }
@@ -85,17 +93,13 @@ public class MainActivity extends AppCompatActivity {
 
 
         setContentView(myview);
-
+        openDieActivity();
     }
 
-    protected void onStateChange(boolean died){
-        if(died){
-
-        }
-    }
 
     /**
      * Returns the Bal at your touching position if there is one otherwise null
+     *
      * @param event the touch event
      * @return The bal at the touch coordinates otherwise null
      */
@@ -114,48 +118,47 @@ public class MainActivity extends AppCompatActivity {
     public static void detectCollisions() {
 
 
-        for (int i=0; i<myview.paintableObjects.size(); i++) {
+        for (int i = 0; i < myview.paintableObjects.size(); i++) {
             if (!(myview.paintableObjects.get(i) instanceof Bal))
                 continue;
-            Bal huidigeBal = (Bal)myview.paintableObjects.get(i);
+            Bal huidigeBal = (Bal) myview.paintableObjects.get(i);
             // Checks for collision with all other objects
-            for (int j=0; j<myview.paintableObjects.size(); j++) {
+            for (int j = 0; j < myview.paintableObjects.size(); j++) {
                 if (!(myview.paintableObjects.get(j) instanceof Bal))
                     continue;
-                Bal otherBal = (Bal)myview.paintableObjects.get(j);
+                Bal otherBal = (Bal) myview.paintableObjects.get(j);
                 // If there is a collision delete old object and create new merged one
-                if ((!huidigeBal.equals(otherBal)) && (Math.sqrt(Math.pow(huidigeBal.getCenterX()-otherBal.getCenterX(), 2) + Math.pow(huidigeBal.getCenterY()-otherBal.getCenterY(), 2)) < huidigeBal.getRadius() + otherBal.getRadius() - 30) ) {
+                if ((!huidigeBal.equals(otherBal)) && (Math.sqrt(Math.pow(huidigeBal.getCenterX() - otherBal.getCenterX(), 2) + Math.pow(huidigeBal.getCenterY() - otherBal.getCenterY(), 2)) < huidigeBal.getRadius() + otherBal.getRadius() - 30)) {
                     // Deletes old Bal's
-                    if(regularGame.checkForMerge(huidigeBal,otherBal)){
+                    if (regularGame.checkForMerge(huidigeBal, otherBal)) {
                         myview.paintableObjects.remove(huidigeBal);
                         myview.paintableObjects.remove(otherBal);
                     }
 
                     //Calculate new direction:
-                    double TempDirection = ( huidigeBal.getDirection() + otherBal.getDirection() ) / 2.0;
-                    if(Math.abs(huidigeBal.getDirection() - otherBal.getDirection()) >= Math.PI){
+                    double TempDirection = (huidigeBal.getDirection() + otherBal.getDirection()) / 2.0;
+                    if (Math.abs(huidigeBal.getDirection() - otherBal.getDirection()) >= Math.PI) {
                         TempDirection = TempDirection + Math.PI;
                     }
 
                     // als 42 gehaald wordt moeten er 42 punten worden opgeteld + normale puntentelling
-                    if(regularGame.fortyTwo(huidigeBal, otherBal)){
+                    if (regularGame.fortyTwo(huidigeBal, otherBal)) {
                         regularGame.fortyTwoPoints(huidigeBal, otherBal);
                         regularGame.addAFortyTwo();
                     }
 
                     // checkt of de twee ballen optellen tot iets lager dan 42 of 42 en mergt ze dan
-                    if(regularGame.checkForMerge(huidigeBal, otherBal)){
+                    if (regularGame.checkForMerge(huidigeBal, otherBal)) {
 
                         mergeAndUpdateBalls(huidigeBal, otherBal, TempDirection);
                     }
                     // tenzij ze groter dan 42 zouden worden, dan gaat de speler dood
-                    else{
+                    else {
                         regularGame.setDead();
-
                     }
-                    //   Log.d("points: ", ""+regularGame.getPoints());
-                    //   Log.d("alive: ", "" + MainActivity.regularGame.getAlive());
-                    //  Log.d("nr of balls in list: ", "" + MainActivity.regularGame.getNrOfBalls());
+                    //   Log.d("points: ", ""+RegularGame.getPoints());
+                    //   Log.d("alive: ", "" + MainActivity.RegularGame.getAlive());
+                    //  Log.d("nr of balls in list: ", "" + MainActivity.RegularGame.getNrOfBalls());
                     return;
                 }
                 otherBal = null;
@@ -164,12 +167,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
-
-
     /**
-     *
      * @param centerX
      * @param centerY
      * @param direction
@@ -178,13 +176,13 @@ public class MainActivity extends AppCompatActivity {
      * @param size
      * @return this new bal on canvas is created and this bal is returned( in order to be able to be added in the list of balls in Game class)
      */
-    private static Bal createBalOnCanvas(int centerX, float centerY, float direction, float radius, int val, int size){
+    private static Bal createBalOnCanvas(int centerX, float centerY, float direction, float radius, int val, int size) {
         Bal newBal = new Bal(centerX, centerY, direction, radius, val, size);
         myview.paintableObjects.add(newBal);
         return newBal;
     }
 
-    public static void createAndAddBall(int centerX, float centerY, float direction, float radius, int val, int size){
+    public static void createAndAddBall(int centerX, float centerY, float direction, float radius, int val, int size) {
         Bal newBal = createBalOnCanvas(centerX, centerY, direction, radius, val, size);
         regularGame.addBall(newBal);
     }
@@ -193,33 +191,38 @@ public class MainActivity extends AppCompatActivity {
      * merges two balls in canvas, calculates the averages of the two old ones in order to create a new bal.
      * this new Bal is returned.
      */
-    public static Bal mergeBalls(Bal bal_1, Bal bal_2, double tempDirection){
+    public static Bal mergeBalls(Bal bal_1, Bal bal_2, double tempDirection) {
         Bal newBal = new Bal(
-                (int)(bal_1.getCenterX()+ bal_2.getCenterX())/2, // CenterX
-                (int)(bal_1.getCenterY()+ bal_2.getCenterY())/2, // CenterY
-                (float)Math.toDegrees(tempDirection),   // Direction
+                (int) (bal_1.getCenterX() + bal_2.getCenterX()) / 2, // CenterX
+                (int) (bal_1.getCenterY() + bal_2.getCenterY()) / 2, // CenterY
+                (float) Math.toDegrees(tempDirection),   // Direction
                 bal_1.getRadius(),  // Radius
                 bal_1.getVal() + bal_2.getVal(), // Val
                 bal_1.getSize() + bal_2.getSize()
         );
-        myview.paintableObjects.add(newBal);
-        return newBal;
+        if (bal_1.getVal() + bal_2.getVal() != 42) {
+            myview.paintableObjects.add(newBal);
+            return newBal;
+        }
+        return null;
     }
 
     /**
-     * @param bal_1 to be merged
-     * @param bal_2 to be merged
+     * @param bal_1          to be merged
+     * @param bal_2          to be merged
      * @param tempDirection, temporary direction
-     * deletes bal_1 and bal_2 from list of balls in game.
-     * adds bal to list of balls in game.
-     * update score of the game.
+     *                       deletes bal_1 and bal_2 from list of balls in game.
+     *                       adds bal to list of balls in game.
+     *                       update score of the game.
      */
-    public static void mergeAndUpdateBalls(Bal bal_1, Bal bal_2, double tempDirection){
+    public static void mergeAndUpdateBalls(Bal bal_1, Bal bal_2, double tempDirection) {
         Bal newBal = mergeBalls(bal_1, bal_2, tempDirection);
         regularGame.deleteBall(bal_1);
         regularGame.deleteBall(bal_2);
-        regularGame.addBall(newBal);
-        regularGame.setPoints(regularGame.mergePoints(newBal));
+        if (newBal != null) {
+            regularGame.addBall(newBal);
+            regularGame.setPoints(regularGame.mergePoints(newBal));
+        }
     }
 
     /**
@@ -233,15 +236,15 @@ public class MainActivity extends AppCompatActivity {
             int x = r.nextInt(myview.getWidth());
             int y = r.nextInt(myview.getHeight());
             // Try 10 times if coordinates are not to close to all other objects
-            for (int i=0 ;i<10; i++) {
-                for (int j=0; j<size; j++) {
-                    if (myview.paintableObjects.get(j) instanceof  Bal) {
-                        Bal b = (Bal)myview.paintableObjects.get(j);
-                        if (Math.abs(b.getCenterX()-x) < b.getRadius() + Bal.initialRadius && Math.abs(b.getCenterY()-y) < b.getRadius() + Bal.initialRadius) {
-                            j = Integer.MAX_VALUE-42;
+            for (int i = 0; i < 10; i++) {
+                for (int j = 0; j < size; j++) {
+                    if (myview.paintableObjects.get(j) instanceof Bal) {
+                        Bal b = (Bal) myview.paintableObjects.get(j);
+                        if (Math.abs(b.getCenterX() - x) < b.getRadius() + Bal.initialRadius && Math.abs(b.getCenterY() - y) < b.getRadius() + Bal.initialRadius) {
+                            j = Integer.MAX_VALUE - 42;
                         }
-                        if (Math.abs(b.getCenterX()-x) > b.getRadius() + Bal.initialRadius && Math.abs(b.getCenterY()-y) > b.getRadius() + Bal.initialRadius && j == (size-1)) {
-                            createAndAddBall(x, y, (float)r.nextInt(180), 70, r.nextInt(10)+1, 1);
+                        if (Math.abs(b.getCenterX() - x) > b.getRadius() + Bal.initialRadius && Math.abs(b.getCenterY() - y) > b.getRadius() + Bal.initialRadius && j == (size - 1)) {
+                            createAndAddBall(x, y, (float) r.nextInt(180), 70, r.nextInt(10) + 1, 1);
                             return;
                         }
                     }
@@ -250,24 +253,18 @@ public class MainActivity extends AppCompatActivity {
                 y = r.nextInt(myview.getHeight());
             }
             // if there are no objects spawn a object
-        }else if (size < 3) {
-            createAndAddBall(r.nextInt(myview.getWidth()), r.nextInt(myview.getHeight()), (float)r.nextInt(180), 70, r.nextInt(10)+1, 1);
+        } else if (size < 3) {
+            createAndAddBall(r.nextInt(myview.getWidth()), r.nextInt(myview.getHeight()), (float) r.nextInt(180), 70, r.nextInt(10) + 1, 1);
         }
     }
 
-
-
-    public void openDieActivity(){
-        Intent intent = new Intent(this, DieActivity.class);
-        intent.putExtra("Score",regularGame.getPoints());
-        intent.putExtra("FortyTwos",regularGame.getnrOfFortyTwos());
-        startActivity(intent);
-    }
-
+    /**
+     * Plays a sound
+     *
+     * @param s : the sound to play
+     */
     public static void playSound(Audio.sounds s) {
-        Log.d("playSound", "s,toString()" +  s.toString());
         if (s.toString().equals(Audio.sounds.spawn.toString())) {
-            Log.d("playSound", "spawn sound");
             mp2.start();
             return;
         }
@@ -282,7 +279,79 @@ public class MainActivity extends AppCompatActivity {
             mp.pause();
             mp.seekTo(0);
             mp.start();
-        }else
+        } else
             mp.start();
+    }
+
+
+    protected void onStateChange(boolean died) {
+        if (died) {
+
+        }
+    }
+
+    /**
+     * Opens the die screen
+     */
+    public void openDieActivity() {
+        Log.d("openDieActivity", "started");
+        saveScore(Integer.toString(regularGame.getPoints()));
+        Intent intent = new Intent(this, DieActivity.class);
+        intent.putExtra("Score", regularGame.getPoints());
+        intent.putExtra("FortyTwos", regularGame.getnrOfFortyTwos());
+        startActivity(intent);
+    }
+
+    /**
+     * Writes a highscore
+     *
+     * @param score : the highscore to save
+     */
+    private void saveScore(String score) {
+        Log.d("saveScore", "started");
+        File sd = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/super42");
+        sd.mkdir();
+        File myFile = new File(sd, "highscores.txt");
+        try {
+            Log.d("saveScore", "s=" + score + " trying.. sd=" + sd.toString());
+            if (!myFile.exists()) {
+                try {
+                    myFile.createNewFile();
+                } catch (Exception e) {
+                    Log.d("saveScore", "myFile.createNewFile() failed " + e.toString());
+                }
+            }
+            FileOutputStream out = new FileOutputStream(myFile, true);
+            OutputStreamWriter writer = new OutputStreamWriter(out);
+            String append = score + " " + new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+            if (Pattern.matches("\\A\\d+\\s\\d{2}-\\d{2}-\\d{4}\\Z", append)) {
+                writer.append("\n" + append);
+            }
+            writer.close();
+            out.close();
+            Log.d("saveScore", "succes");
+        } catch (Exception e) {
+            Log.d("saveScore", "Exception " + e.toString());
+        }
+        readHighscores();
+    }
+
+    public String readHighscores() {
+        File sdcard = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/super42");
+        File file = new File(sdcard, "highscores.txt");
+        StringBuilder text = new StringBuilder();
+        String res = "";
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String s;
+            while ((s = br.readLine()) != null) {
+                res += s + "\n";
+            }
+            br.close(); 
+        } catch (IOException e) {
+            Log.d("readHighscores", e.toString());
+        }
+        Log.d("readHighscores", "text=" + res);
+        return res;
     }
 }

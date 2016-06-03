@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.gijs.super42.MenuActivity"
+    tools:context="com.example.puC.super42.MenuActivity"
     android:background="@drawable/menu2">
 
     <ImageView
