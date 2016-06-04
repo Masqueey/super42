@@ -21,7 +21,6 @@ public class MenuActivity extends AppCompatActivity {
 
     public void imageButtonuttonOnClickListener() {
         imageView = (ImageView) findViewById(R.id.new_game);
-
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -30,11 +29,18 @@ public class MenuActivity extends AppCompatActivity {
         });
 
         imageView = (ImageView) findViewById(R.id.highscores);
-
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MenuActivity.this,Highscores.class));
+            }
+        });
+
+        imageView = (ImageView) findViewById(R.id.help);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MenuActivity.this,Help.class));
             }
         });
     }

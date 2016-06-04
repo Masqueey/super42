@@ -93,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         setContentView(myview);
-        openDieActivity();
     }
 
 
