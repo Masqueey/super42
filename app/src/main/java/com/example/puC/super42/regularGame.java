@@ -1,54 +1,26 @@
 package com.example.puC.super42;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.content.Intent;
+import android.util.Log;
 
-
-public class RegularGame {
+public class regularGame extends GameActivity  {
 
     private int points;
-    private List <Bal> balls;
     private int maxValue;
-    private boolean alive;
+    private boolean alive = true;
     private int nrOfFortyTwos;
 
+    //Scorevariables:
+    //TIMESCOREMULTIPIER: hoger is langzamer:
+    private final int TIMESCOREMULTIPIER = 70;
+    private int timescorecounter = 0;
+    private final int SCOREPERMERGE = 20;
+    private final int SCOREPER42 = 420;
 
-    RegularGame(){
-        balls = new ArrayList<Bal>();
+    public void regularGame(){
         points = 0;
         maxValue = 42;
         alive = true;
-    }
-
-
-    public boolean collision(){
-        boolean tempCollision = false;
-        for(Bal bal : balls){
-            for (Bal otherbal : balls){
-                if(!bal.equals(otherbal)){
-                    if((Math.sqrt(Math.pow(bal.getCenterX()-otherbal.getCenterX(), 2) + Math.pow(bal.getCenterY()-otherbal.getCenterY(), 2)) < bal.getRadius() + otherbal.getRadius() - 30) ){
-                        return true;
-                    }
-                }
-            }
-        }
-        return tempCollision;
-    }
-
-    public int getNrOfBalls(){
-        return balls.size();
-    }
-
-    public void addBall(Bal ballToAdd){
-        balls.add(ballToAdd);
-    }
-
-    public void deleteBall(Bal ballToDelete){
-        balls.remove(ballToDelete);
-    }
-
-    public void setPoints(int pointsToAdd){
-        points += pointsToAdd;
     }
 
     public int getnrOfFortyTwos(){
@@ -60,12 +32,11 @@ public class RegularGame {
     }
 
     /**
-     *
      * @return true if all balls in game do not overgrow the maxValue set in this Game
      */
     public boolean checkAlive(){
         boolean allAlive = true;
-        for (Bal ball : balls){
+        for (GameObject ball : gameObjectList){
             if (!ball.smallEnough(maxValue)) {
                 allAlive = false;
             }
@@ -73,24 +44,51 @@ public class RegularGame {
         return allAlive;
     }
 
-    /**
-     * if dead, die
-     */
-   public void checkDeadsetDead(){
+    public void checkDeadsetDead(){
         if(!checkAlive()){
             alive = false;
         }
     }
 
-
     /**
-     *
      * @param bal_1
      * @param bal_2
      * @return valid values for a merge which is at a max of 42
      */
-    public boolean checkForMerge(Bal bal_1, Bal bal_2){
-        return bal_1.getVal() + bal_2.getVal() <= 42;
+    public boolean checkForValidMerge(Bal bal_1, Bal bal_2){
+        if( bal_1.getValue() + bal_2.getValue() <= 42){
+            return true;
+        }
+        else{   //(bal_1.getValue() + bal_2.getValue() >= 42;)
+            return false;
+        }
+
+    }
+
+    //Moet er een nieuwe ball worden gemaakt na het mergen?
+    public boolean checkMergeNewBall(Bal bal_1,Bal bal_2){
+        if( bal_1.getValue() + bal_2.getValue() < 42){
+            return true;
+        }
+        else{   //(bal_1.getValue() + bal_2.getValue() == 42;)
+            return false;
+        }
+    }
+
+    public void handleCollision(Bal bal_1, Bal bal_2){
+        Log.d("in handleCollision: ", ""+getPoints());
+        // als 42 gehaald wordt moeten er SCOREPER42 punten worden opgeteld
+        if( fortyTwo(bal_1, bal_2)){
+            Log.d("in fortytwo: ", ""+getPoints());
+            Add42Score();
+            addAFortyTwo();
+        }
+        // checkt of de twee ballen optellen tot iets lager dan 42 of 42 en merged ze dan
+        // en addmergescore
+        if(checkForValidMerge(bal_1, bal_2)){
+            Log.d("in merge: ", ""+getPoints());
+            addMergeScore();
+        }
     }
 
     /**
@@ -99,24 +97,25 @@ public class RegularGame {
      * @param bal_2
      * @return balls merge to exactly 42
      */
-
     public boolean fortyTwo(Bal bal_1, Bal bal_2){
-        return bal_1.getVal() + bal_2.getVal() == 42;
+        return bal_1.getValue() + bal_2.getValue() == 42;
     }
 
-    public void fortyTwoPoints(Bal bal_1, Bal bal_2){
-        if (fortyTwo(bal_1, bal_2)) {
-            points += (42 + (bal_1.getVal() + bal_2.getVal() ) * (bal_1.getSize() + bal_2.getSize() + 1));
+    public void addTimeScore (){
+        timescorecounter++;
+        if (timescorecounter % TIMESCOREMULTIPIER == 0){
+            points = points + 1;
         }
     }
 
-    /**
-     *
-     * @param mergedBal the merged ball which just has been created during the merge
-     * @return
-     */
-    public int mergePoints(Bal mergedBal){
-        return mergedBal.getSize()* mergedBal.getVal();
+    public void addMergeScore(){
+        points += SCOREPERMERGE;
+    }
+    public void addScore(int score){
+        points += score;
+    }
+    public void Add42Score (){
+        points += SCOREPER42;
     }
 
     public int getPoints(){
@@ -130,5 +129,16 @@ public class RegularGame {
     public void setDead(){
         alive = false;
     }
+
+    public void openGameoverActivity(){
+        Log.d("openGameoverActivity", "s=" + points );
+        saveScore(Integer.toString(points));
+
+        Intent intent = new Intent(this, GameoverActivity.class);
+        intent.putExtra("Score", points);
+        intent.putExtra("FortyTwos", nrOfFortyTwos);
+        startActivity(intent);
+    }
+
 
 }

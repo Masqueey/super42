@@ -8,24 +8,25 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 
+import com.example.puC.super42.R;
+
+
 public class StartUp extends AppCompatActivity {
 /**
  * @param myview : the view of the avtivity
  */
-    private MyView myview;
+    private GameView myview;
     private static ImageButton iB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        myview = new MyView(this);
-        // Hide the Title Bar
+        myview = new GameView(this);
+		// Hide the Title Bar
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-
         setContentView(R.layout.activity_start_up);
         onImageButtonClickListener();
-
         // Hide the Status Bar
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
         WindowManager.LayoutParams.FLAG_FULLSCREEN);

@@ -1,11 +1,15 @@
 package com.example.puC.super42;
 
+
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+
+import com.example.puC.super42.R;
+
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -25,7 +29,7 @@ public class MenuActivity extends AppCompatActivity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MenuActivity.this,MainActivity.class));
+                startActivity(new Intent(MenuActivity.this,regularGame.class));
             }
         });
 

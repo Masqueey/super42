@@ -1,36 +1,38 @@
 package com.example.puC.super42;
 
+
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 
 import java.util.ArrayList;
 
-
-public class Bal implements Paintable {
-    public static final float initialRadius = 50;
-    private float speed = 12;
+public class Bal implements GameObject {
+	public static final float initialRadius = 50;
+	private float speed = 12;
     private Paint painttext, paintbal, paintline;
-    private float centerX, centerY, radius, sizeAdjustment;
+	private float centerX, centerY, radius, sizeAdjustment;
+    private int size, value;
     private double direction;
+
     private boolean isSelected;
     private ArrayList<float[]> path;
     private final float ratio;
-    private int size, val;
+
     private float pathLength = 0;
 
-    public Bal(int centerX, float centerY, float direction, float radius, int val, int size) {
+    public Bal(int centerX, float centerY, float direction, float radius, int value, int size) {
         sizeAdjustment = (float)(size > 30 ? 2.56 : (float)(( Math.pow( (double)size + 50, 2) / 2500)));
         paintbal = new Paint();
-        paintbal.setColor(Color.rgb((int)((double)(val)/(42) * 256), 0, 256 - (int)((double)(val)/(42) * 256)));
+        paintbal.setColor(Color.rgb((int)((double)(value)/(42) * 256), 0, 256 - (int)((double)(value)/(42) * 256)));
 
         painttext = new Paint();
         painttext.setColor(Color.WHITE);
         painttext.setTextAlign(Paint.Align.CENTER);
-        ratio = MainActivity.screenWidth / 720;
+        ratio = GameActivity.screenWidth < 720 ? (float)(GameActivity.screenWidth  / 1080.0) : 1;
         this.radius =  ratio * initialRadius * sizeAdjustment;
         painttext.setTextSize((float) (radius * 0.75));
+        // Log.d("Bal", "radius=" + radius + " sizeAdjustment=" + sizeAdjustment + " size=" + size);
         paintline = new Paint();
         paintline.setStrokeWidth(12);
         paintline.setColor(paintbal.getColor());
@@ -40,32 +42,29 @@ public class Bal implements Paintable {
         this.direction = Math.toRadians(direction);
         isSelected = false;
         path = new ArrayList<float[]>();
-        this.val = val;
+        this.value = value;
         this.size = size;
-        speed = speed * (float)(MainActivity.r.nextInt(40)/100+0.8) / sizeAdjustment;
+        speed = speed * (float)(GameActivity.r.nextInt(40)/100+0.8) / sizeAdjustment;
     }
 
-    //synchronise
+
 
     public void paint(Canvas canvas) {
         //To draw the set path for the current ball.
         if(!path.isEmpty()) {
             canvas.setDensity(3000);
             float[] coords = path.get(0);
-            float[] coords1;
+            float[] coordsnext;
 
             canvas.drawLine(centerX, centerY, coords[0], coords[1], paintline);
             for (int i = 0; i < path.size() - 1; i++) {
                 coords = path.get(i);
-                coords1 = path.get(i + 1);
-                canvas.drawLine(coords[0], coords[1], coords1[0], coords1[1], paintline);
+                coordsnext = path.get(i + 1);
+                canvas.drawLine(coords[0], coords[1], coordsnext[0], coordsnext[1], paintline);
             }
         }
-
         canvas.drawCircle(centerX, centerY, radius, paintbal);
-        canvas.drawText(Integer.toString(val), centerX, (float) (centerY + 0.5 * radius), painttext);
-
-
+        canvas.drawText(Integer.toString(value), centerX, (float) (centerY + 0.5 * radius), painttext);
     }
 
     /**
@@ -92,9 +91,8 @@ public class Bal implements Paintable {
                 if (correction == 1) {
                     path.remove(coord);
                 }
-
                 //change the this.direction variable of the ball in case it is possible for the pad to end.
-                direction = PointsToRadians(y,centerY,x,centerX);
+                this.direction = PointsToRadians(y,centerY,x,centerX);
 
                 centerX += correction * (x - centerX);
                 centerY += correction * (y - centerY);
@@ -128,7 +126,7 @@ public class Bal implements Paintable {
 
         float[] checked = checkCoord(new float[]{centerX, centerY});
         if (centerX != checked[0] || centerY != checked[1]) {
-            MainActivity.playSound(Audio.sounds.bounce);
+            GameActivity.playSound(Audio.sounds.bounce);
         }
         centerX = checked[0];
         centerY = checked[1];
@@ -146,17 +144,19 @@ public class Bal implements Paintable {
     }
 
     private double PointsToRadians(float targetY,float  sourceY,float targetX, float sourceX){
+
         double angle =   Math.toDegrees(Math.atan2(targetY - sourceY, targetX - sourceX));
-        if(angle < 0)
+        if(angle < 0){
             angle += 360;
+        }
 
         direction = Math.toRadians(angle);
         return  Math.toRadians(angle);
     }
 
     public float[] checkCoord(float[] coord) {
-        float w = MyView.canvasWidth;
-        float h = MyView.canvasHeight;
+        float w = GameView.canvasWidth;
+        float h = GameView.canvasHeight;
         float x = coord[0];
         float y = coord[1];
 
@@ -178,7 +178,7 @@ public class Bal implements Paintable {
      * @return value is not too big according to the maxValue that is passed. (depends on game-rules)
      */
     public boolean smallEnough(int maxValue){
-        return val<=maxValue;
+        return value <=maxValue;
     }
 
     public float getCenterX() {
@@ -235,7 +235,7 @@ public class Bal implements Paintable {
 
     public double getDirection() { return direction; }
 
-    public int getVal() { return val; }
+    public int getValue() { return value; }
 
     public ArrayList<float[]> getPath() { return path; }
 
@@ -243,6 +243,6 @@ public class Bal implements Paintable {
 
 
     public boolean equals(Bal otherBal){
-        return size == otherBal.size && centerX == otherBal.centerX && centerY == otherBal.centerY && val == otherBal.val;
+        return size == otherBal.size && centerX == otherBal.centerX && centerY == otherBal.centerY && value == otherBal.value;
     }
 }
