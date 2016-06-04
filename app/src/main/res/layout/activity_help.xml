@@ -8,14 +8,24 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@color/black"
-    tools:context="com.example.puC.super42.Highscores">
+    tools:context="com.example.puC.super42.Help">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="22dp"
+        android:textColor="@color/white"
+        android:text="\nHelp\n\n"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal|center"
+        android:id="@+id/titleHelp"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:textColor="@color/white"
         android:textSize="18dp"
-        android:id="@+id/highscoreTextView" />
+        android:textColor="@color/white"
+        android:id="@+id/helpText"
+        android:layout_below="@+id/titleHelp"/>
 
 </RelativeLayout>

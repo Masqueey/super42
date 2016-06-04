@@ -3,9 +3,8 @@ package com.example.puC.super42;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v4.widget.TextViewCompat;
+import android.text.Html;
 import android.util.Log;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -24,7 +23,8 @@ public class Highscores extends Activity {
         File sdcard = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/super42");
         File file = new File(sdcard, "highscores.txt");
         StringBuilder text = new StringBuilder();
-        highscores  = (TextView)findViewById(R.id.highscoreTextView);
+        highscores = (TextView) findViewById(R.id.highscoreTextView);
+        highscores.append(Html.fromHtml("<b>--Highscores--</b>"));
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
             String s;
