@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         setContentView(myview);
+        saveScore("123454");
     }
 
 
@@ -308,11 +309,11 @@ public class MainActivity extends AppCompatActivity {
      */
     private void saveScore(String score) {
         Log.d("saveScore", "started");
-        File sd = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/super42");
-        sd.mkdir();
-        File myFile = new File(sd, "highscores.txt");
+        File dir  = new File(getApplicationInfo().dataDir);
+        dir.mkdir();
+        File myFile = new File(dir, "highscores.txt");
         try {
-            Log.d("saveScore", "s=" + score + " trying.. sd=" + sd.toString());
+            Log.d("saveScore", "s=" + score + " trying.. sd=" + dir.toString());
             if (!myFile.exists()) {
                 try {
                     myFile.createNewFile();
@@ -336,8 +337,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public String readHighscores() {
-        File sdcard = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/super42");
-        File file = new File(sdcard, "highscores.txt");
+        File dir  = new File(getApplicationInfo().dataDir);
+        File file = new File(dir, "highscores.txt");
         StringBuilder text = new StringBuilder();
         String res = "";
         try {
