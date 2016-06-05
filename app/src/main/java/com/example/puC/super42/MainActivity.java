@@ -1,26 +1,15 @@
 package com.example.puC.super42;
 
 import android.content.Context;
-import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Random;
-import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
     /**
@@ -41,9 +30,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.regularGame = new RegularGame();
-        if (!regularGame.getAlive()) {
-            openDieActivity();
-        }
 
         myview = new MyView(this);
         DisplayMetrics metrics = new DisplayMetrics();
@@ -91,9 +77,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         setContentView(myview);
-        saveScore("123454");
     }
 
 
@@ -154,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     // tenzij ze groter dan 42 zouden worden, dan gaat de speler dood
                     else {
-                        regularGame.setDead();
+                        regularGame.setDead(context);
                     }
                     //   Log.d("points: ", ""+RegularGame.getPoints());
                     //   Log.d("alive: ", "" + MainActivity.RegularGame.getAlive());
@@ -231,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
     public static void spawn() {
         int size = myview.paintableObjects.size();
         // Checks how many objects there are in the view and also a random check so object won't spawn too fast
-        if (size > 2 && size < r.nextInt(2) + 4 && r.nextInt(100) == 42) {
+        if (size > 2 && size < 7 && r.nextInt(size * 20) == 42) {
             // Random x,y coordinates
             int x = r.nextInt(myview.getWidth());
             int y = r.nextInt(myview.getHeight());
@@ -281,77 +265,5 @@ public class MainActivity extends AppCompatActivity {
             mp.start();
         } else
             mp.start();
-    }
-
-
-    protected void onStateChange(boolean died) {
-        if (died) {
-
-        }
-    }
-
-    /**
-     * Opens the die screen
-     */
-    public void openDieActivity() {
-        Log.d("openDieActivity", "started");
-        saveScore(Integer.toString(regularGame.getPoints()));
-        Intent intent = new Intent(this, DieActivity.class);
-        intent.putExtra("Score", regularGame.getPoints());
-        intent.putExtra("FortyTwos", regularGame.getnrOfFortyTwos());
-        startActivity(intent);
-    }
-
-    /**
-     * Writes a highscore
-     *
-     * @param score : the highscore to save
-     */
-    private void saveScore(String score) {
-        Log.d("saveScore", "started");
-        File dir  = new File(getApplicationInfo().dataDir);
-        dir.mkdir();
-        File myFile = new File(dir, "highscores.txt");
-        try {
-            Log.d("saveScore", "s=" + score + " trying.. sd=" + dir.toString());
-            if (!myFile.exists()) {
-                try {
-                    myFile.createNewFile();
-                } catch (Exception e) {
-                    Log.d("saveScore", "myFile.createNewFile() failed " + e.toString());
-                }
-            }
-            FileOutputStream out = new FileOutputStream(myFile, true);
-            OutputStreamWriter writer = new OutputStreamWriter(out);
-            String append = score + " " + new SimpleDateFormat("dd-MM-yyyy").format(new Date());
-            if (Pattern.matches("\\A\\d+\\s\\d{2}-\\d{2}-\\d{4}\\Z", append)) {
-                writer.append("\n" + append);
-            }
-            writer.close();
-            out.close();
-            Log.d("saveScore", "succes");
-        } catch (Exception e) {
-            Log.d("saveScore", "Exception " + e.toString());
-        }
-        readHighscores();
-    }
-
-    public String readHighscores() {
-        File dir  = new File(getApplicationInfo().dataDir);
-        File file = new File(dir, "highscores.txt");
-        StringBuilder text = new StringBuilder();
-        String res = "";
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            String s;
-            while ((s = br.readLine()) != null) {
-                res += s + "\n";
-            }
-            br.close();
-        } catch (IOException e) {
-            Log.d("readHighscores", e.toString());
-        }
-        Log.d("readHighscores", "text=" + res);
-        return res;
     }
 }

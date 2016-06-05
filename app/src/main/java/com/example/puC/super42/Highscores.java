@@ -11,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Highscores extends Activity {
     private TextView highscores;
@@ -24,16 +25,12 @@ public class Highscores extends Activity {
         File file = new File(sdcard, "highscores.txt");
         StringBuilder text = new StringBuilder();
         highscores = (TextView) findViewById(R.id.highscoreTextView);
-        highscores.append(Html.fromHtml("<b>--Highscores--</b>"));
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            String s;
-            while ((s = br.readLine()) != null) {
-                highscores.append("\n" + s);
-            }
-            br.close();
-        } catch (IOException e) {
-            Log.d("Highscores onCreate", e.toString());
+        highscores.append(Html.fromHtml("<b>Highscores</b><br><br>"));
+
+        GetSetScore getSetScore = new GetSetScore(Highscores.this);
+        ArrayList<String> scores= getSetScore.readHighscores();
+        for (String s : scores) {
+            highscores.append(s.replaceFirst("\\s", "\t\t") + "\n");
         }
     }
 }

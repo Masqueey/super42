@@ -69,10 +69,6 @@ public class MyView extends View implements View.OnClickListener{
                 drawScore(c);
                 postInvalidateDelayed(33);
         }
-        if(!MainActivity.regularGame.getAlive()) {
-            drawDead(c);
-            drawScore(c);
-        }
 
     }
 
@@ -87,17 +83,6 @@ public class MyView extends View implements View.OnClickListener{
         paint.setTextSize(40);
         c.drawText("Score: " + MainActivity.regularGame.getPoints() , 0, 70, paint);
         c.drawText("Nr of 42s: " + MainActivity.regularGame.getnrOfFortyTwos() , 320, 70, paint);
-    }
-
-    /**
-     *
-     * @param c is the canvas being painted on
-     */
-    protected void drawDead(Canvas c){
-        Paint paint = new Paint();
-        paint.setColor(Color.RED);
-        paint.setTextSize(88);
-        c.drawText("U died, U fool", 0,MainActivity.screenHeight - 88, paint);
     }
 
 

@@ -1,5 +1,9 @@
 package com.example.puC.super42;
 
+import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -127,8 +131,16 @@ public class RegularGame {
         return alive;
     }
 
-    public void setDead(){
+    public void setDead(Context c){
         alive = false;
+        Log.d("setDead", "u died alive=" + alive);
+        Log.d("openDieActivity", "started");
+        GetSetScore s = new GetSetScore(c);
+        s.saveScore(Integer.toString(points));
+        Intent intent = new Intent(c, GameOver.class);
+        intent.putExtra("Score", points);
+        intent.putExtra("FortyTwos", nrOfFortyTwos);
+        c.startActivity(intent);
     }
 
 }
