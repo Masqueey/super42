@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class RegularGame {
+public class RegularGame { 
 
     private int points;
     private List <Bal> balls;
