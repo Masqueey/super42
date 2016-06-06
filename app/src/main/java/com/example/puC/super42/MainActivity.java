@@ -3,6 +3,7 @@ package com.example.puC.super42;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -24,7 +25,8 @@ public class MainActivity extends AppCompatActivity {
     private static Context context;
     private final String highscorePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/highscores.txt";
     private Bal balSelected;
-
+    private int BalSizeFactor = 1;
+    private CountDownTimer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,33 @@ public class MainActivity extends AppCompatActivity {
         screenWidth = metrics.widthPixels;
         context = MainActivity.this;
         mp2 = MediaPlayer.create(context, R.raw.spawn);
+
+        timer = new CountDownTimer(20000,1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                myview.updateTime((int)millisUntilFinished/1000);
+            }
+
+            @Override
+            public void onFinish() {
+
+                start();
+            }
+        }.start();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         /**
          * Touch listener for whole screen
@@ -265,5 +294,9 @@ public class MainActivity extends AppCompatActivity {
             mp.start();
         } else
             mp.start();
+    }
+
+    public void setBalSizeFactor(int i) {
+        BalSizeFactor = i;
     }
 }
