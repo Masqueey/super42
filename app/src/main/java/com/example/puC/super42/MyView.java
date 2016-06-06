@@ -17,6 +17,7 @@ public class MyView extends View implements View.OnClickListener{
     List<Paintable> paintableObjects = new ArrayList<Paintable>();
     public static float canvasWidth = 0;
     public static float canvasHeight = 0;
+    private int countdowntime = 0;
 
     public Bal bal;
 
@@ -24,20 +25,11 @@ public class MyView extends View implements View.OnClickListener{
 
     public MyView(Context context) {
         super(context);
-
-        //this.setOnClickListener(Navi);
     }
 
     public void AddPaintable(Paintable paintable){
         paintableObjects.add(paintable);
     }
-
-
-    //private OnClickListener Navi = new OnClickListener() {
-      //  public void onClick(View v) {
-       //     AddPaintable(new Bal(20,220,60,70,15));
-       // }
-    //};
 
     // nog even kijken hoe dit werkt
     private int centerX;
@@ -83,6 +75,7 @@ public class MyView extends View implements View.OnClickListener{
         paint.setTextSize(40);
         c.drawText("Score: " + MainActivity.regularGame.getPoints() , 0, 70, paint);
         c.drawText("Nr of 42s: " + MainActivity.regularGame.getnrOfFortyTwos() , 320, 70, paint);
+        c.drawText("Power Time:" + countdowntime,0,140,paint);
     }
 
 
@@ -91,6 +84,10 @@ public class MyView extends View implements View.OnClickListener{
 
         AddPaintable(new Bal(20,20,20,70,26,1));
         return false;
+    }
+
+    public void updateTime(int countdowntime){
+        this.countdowntime = countdowntime;
     }
 
     @Override

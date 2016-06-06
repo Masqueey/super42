@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class RegularGame { 
+public class RegularGame {
 
     private int points;
     private List <Bal> balls;
@@ -60,6 +60,7 @@ public class RegularGame {
     }
 
     public void addAFortyTwo(){
+        MainActivity.reached42 = true;
         nrOfFortyTwos++;
     }
 
@@ -133,6 +134,7 @@ public class RegularGame {
 
     public void setDead(Context c){
         alive = false;
+        //timer.
         Log.d("setDead", "u died alive=" + alive);
         Log.d("openDieActivity", "started");
         GetSetScore s = new GetSetScore(c);

@@ -3,11 +3,15 @@ package com.example.puC.super42;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.example.puC.super42.PowerUps.BallSizeDecreaser;
+import com.example.puC.super42.PowerUps.BallSizeIncreaser;
 
 import java.util.Random;
 
@@ -24,7 +28,9 @@ public class MainActivity extends AppCompatActivity {
     private static Context context;
     private final String highscorePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/highscores.txt";
     private Bal balSelected;
-
+    public static double balSizeFactor;
+    private CountDownTimer timer;
+    public static boolean reached42;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +44,28 @@ public class MainActivity extends AppCompatActivity {
         screenWidth = metrics.widthPixels;
         context = MainActivity.this;
         mp2 = MediaPlayer.create(context, R.raw.spawn);
+        reached42 = false;
+        balSizeFactor = 1;
+        timer = new CountDownTimer(20000,1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                myview.updateTime((int)millisUntilFinished/1000);
+                if(regularGame.getAlive() == false){
+                    //balSizeFactor = 1;
+                    timer.cancel();
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                if(!reached42)
+                    randomPowerdownCreator(r.nextInt(100));
+                else
+                    randomPowerupCreator(r.nextInt(100));
+                reached42=false;
+                start();
+            }
+        }.start();
 
         /**
          * Touch listener for whole screen
@@ -79,7 +107,19 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(myview);
     }
+    private void randomPowerupCreator(int i){
+        i = i%1;
+        switch(i){
 
+            default: BallSizeDecreaser decreaser = new BallSizeDecreaser(this);  decreaser.changeGame(); return;
+        }
+    }
+    private void randomPowerdownCreator(int i){
+        i=i%1;
+        switch(i){
+            default: BallSizeIncreaser increaser = new BallSizeIncreaser(this);  increaser.changeGame(); return;
+        }
+    }
 
     /**
      * Returns the Bal at your touching position if there is one otherwise null
@@ -265,5 +305,9 @@ public class MainActivity extends AppCompatActivity {
             mp.start();
         } else
             mp.start();
+    }
+
+    public void setBalSizeFactor(double i) {
+        balSizeFactor = i;
     }
 }
