@@ -29,7 +29,7 @@ public class Bal implements Paintable {
         painttext.setColor(Color.WHITE);
         painttext.setTextAlign(Paint.Align.CENTER);
         ratio = MainActivity.screenWidth / 720;
-        this.radius =  ratio * initialRadius * sizeAdjustment;
+        this.radius =  ratio * initialRadius * sizeAdjustment * (float) MainActivity.balSizeFactor;
         painttext.setTextSize((float) (radius * 0.75));
         paintline = new Paint();
         paintline.setStrokeWidth(12);

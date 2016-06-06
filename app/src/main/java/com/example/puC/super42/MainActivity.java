@@ -7,15 +7,12 @@ import android.os.CountDownTimer;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 import com.example.puC.super42.PowerUps.BallSizeDecreaser;
 import com.example.puC.super42.PowerUps.BallSizeIncreaser;
-import com.example.puC.super42.PowerUps.GameChanger;
-import com.example.puC.super42.PowerUps.Power;
-import java.util.ArrayList;
+
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -31,9 +28,9 @@ public class MainActivity extends AppCompatActivity {
     private static Context context;
     private final String highscorePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/highscores.txt";
     private Bal balSelected;
-    public int BalSizeFactor = 1;
+    public static double balSizeFactor;
     private CountDownTimer timer;
-    private boolean reached42;
+    public static boolean reached42;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +45,13 @@ public class MainActivity extends AppCompatActivity {
         context = MainActivity.this;
         mp2 = MediaPlayer.create(context, R.raw.spawn);
         reached42 = false;
+        balSizeFactor = 1;
         timer = new CountDownTimer(20000,1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 myview.updateTime((int)millisUntilFinished/1000);
                 if(regularGame.getAlive() == false){
+                    //balSizeFactor = 1;
                     timer.cancel();
                 }
             }
@@ -308,7 +307,7 @@ public class MainActivity extends AppCompatActivity {
             mp.start();
     }
 
-    public void setBalSizeFactor(int i) {
-        BalSizeFactor = i;
+    public void setBalSizeFactor(double i) {
+        balSizeFactor = i;
     }
 }

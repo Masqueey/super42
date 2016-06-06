@@ -1,5 +1,7 @@
 package com.example.puC.super42.PowerUps;
 
+import android.util.Log;
+
 import com.example.puC.super42.MainActivity;
 
 /**
@@ -33,7 +35,8 @@ public class BallSizeDecreaser extends Power {
 
     @Override
     public void changeGame() {
-        act.setBalSizeFactor(act.BalSizeFactor*(1/2));
+        act.setBalSizeFactor(act.balSizeFactor *0.9);
+        Log.d("Increase size", "The ballSizeFactor has been decreased to: " + act.balSizeFactor);
         return;
     }
 

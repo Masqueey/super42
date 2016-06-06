@@ -60,6 +60,7 @@ public class RegularGame {
     }
 
     public void addAFortyTwo(){
+        MainActivity.reached42 = true;
         nrOfFortyTwos++;
     }
 
