@@ -45,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTick(long millisUntilFinished) {
                 myview.updateTime((int)millisUntilFinished/1000);
+                if(regularGame.getAlive() == false){
+                    timer.cancel();
+                }
             }
 
             @Override
@@ -53,20 +56,6 @@ public class MainActivity extends AppCompatActivity {
                 start();
             }
         }.start();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         /**
          * Touch listener for whole screen
