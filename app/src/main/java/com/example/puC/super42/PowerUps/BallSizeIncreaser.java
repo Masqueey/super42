@@ -16,7 +16,7 @@ public class BallSizeIncreaser extends Power
             super(act);
             // this.difficulty = super.getDifficulty();
             //  this.duration = super.getDuration();
-            powerKindOf = PowerKindOf.POWERUP;
+            powerKindOf = PowerKindOf.POWERDOWN;
             return;
         }
 
@@ -34,7 +34,7 @@ public class BallSizeIncreaser extends Power
 
         @Override
         public void changeGame() {
-            act.setBalSizeFactor(2);
+            act.setBalSizeFactor(act.BalSizeFactor*2);
             return;
         }
 

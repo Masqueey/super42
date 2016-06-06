@@ -33,7 +33,7 @@ public class BallSizeDecreaser extends Power {
 
     @Override
     public void changeGame() {
-        act.setBalSizeFactor(1/2);
+        act.setBalSizeFactor(act.BalSizeFactor*(1/2));
         return;
     }
 
