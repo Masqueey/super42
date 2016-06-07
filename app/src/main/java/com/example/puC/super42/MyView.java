@@ -4,10 +4,12 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,13 +21,17 @@ public class MyView extends View implements View.OnClickListener{
     public static float canvasHeight = 0;
     private int countdowntime = 0;
     private String PowerDescription = "Placeholder Desc";
-
-    public Bal bal;
+    private int challengeCounter = 0;
+    private Date challengeTimer = new Date(System.currentTimeMillis());
+    private Paint paintChallenges;
 
     //https://stackoverflow.com/questions/12111265/how-to-create-an-object-that-can-be-drawn-on-the-method-ondraw
 
     public MyView(Context context) {
         super(context);
+        paintChallenges = new Paint();
+        paintChallenges.setColor(Color.RED);
+        paintChallenges.setTextSize(50);
     }
 
     public void AddPaintable(Paintable paintable){
@@ -36,8 +42,7 @@ public class MyView extends View implements View.OnClickListener{
     private int centerX = 0;
     private int centerY = 0;
 
-    @Override
-    protected void onSizeChanged(int w, int h, int oldW, int oldH) {
+    @Override    protected void onSizeChanged(int w, int h, int oldW, int oldH) {
         centerX = w / 2;
         centerY = h / 2;
     }
@@ -79,14 +84,22 @@ public class MyView extends View implements View.OnClickListener{
         c.drawText("Nr of 42s: " + MainActivity.regularGame.getnrOfFortyTwos() , 320, 70, paint);
         c.drawText("Power Time:" + countdowntime,0,140,paint);
         c.drawText(PowerDescription,320, 140,paint);
-    }
 
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event){
 
-        AddPaintable(new Bal(20,20,20,70,26,1));
-        return false;
+        if (MainActivity.challengesCompleted.size() > challengeCounter) {
+            Log.d("drawScore", "challenge completed=" + MainActivity.challengesCompleted.get(challengeCounter));
+            c.drawText("Challenge comple!\n" + MainActivity.challengesCompleted.get(challengeCounter), 20, 250, paintChallenges);
+            challengeCounter++;
+            challengeTimer = new Date(System.currentTimeMillis());
+        }
+
+        //Log.d("drawScore", "MainActivity.challengesCompleted.size()=" + MainActivity.challengesCompleted.size() +  " challengeCounter=" + challengeCounter);
+        //Log.d("drawScore", "MainActivity.dateDiffSec(challengeTimer, new Date(System.currentTimeMillis()))=" + MainActivity.dateDiffSec(challengeTimer, new Date(System.currentTimeMillis())));
+        if (MainActivity.challengesCompleted.size() == challengeCounter && challengeCounter > 0 && MainActivity.dateDiffSec(challengeTimer, new Date(System.currentTimeMillis())) < 5) {
+            Log.d("drawScore", "MainActivity.challengesCompleted=" + MainActivity.challengesCompleted);
+            c.drawText(MainActivity.challengesCompleted.get(challengeCounter - 1), 20, 250, paintChallenges);
+        }
     }
 
     public void updateTime(int countdowntime){
@@ -96,7 +109,7 @@ public class MyView extends View implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        AddPaintable(new Bal(20,20,20,70,20,1));
+
     }
 }
 

@@ -15,10 +15,10 @@
         android:layout_height="wrap_content"
         android:textSize="22dp"
         android:textColor="@color/white"
-        android:text="\nChallenges\n\n"
+        android:text="\nChallenges completed\n"
         android:layout_centerHorizontal="true"
         android:gravity="center_horizontal|center"
-        android:id="@+id/titleChallenges"/>
+        android:id="@+id/titleChallengesCompleted"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -29,6 +29,30 @@
         android:layout_marginTop="30dp"
         android:textSize="18dp"
         android:id="@+id/challengesCompleted"
-        android:layout_below="@+id/titleChallenges"/>
+        android:layout_below="@+id/titleChallengesCompleted"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="22dp"
+        android:textColor="@color/white"
+        android:text="\nChallenges to do\n"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal|center"
+        android:id="@+id/titleChallengesNotCompleted"
+        android:layout_below="@+id/challengesCompleted"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="left"
+        android:textColor="@color/white"
+        android:layout_marginTop="30dp"
+        android:textSize="18dp"
+        android:id="@+id/challengesNotCompleted"
+        android:layout_below="@+id/titleChallengesNotCompleted"/>
+
 
 </RelativeLayout>

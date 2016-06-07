@@ -10,14 +10,19 @@
     android:background="@color/black"
     tools:context="com.example.puC.super42.Highscores">
 
+<ScrollView android:id="@+id/ScrlView" android:layout_width="fill_parent" android:layout_height="fill_parent" >
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:gravity="center_horizontal|center"
+        android:gravity="left"
         android:textColor="@color/white"
         android:layout_marginTop="30dp"
         android:textSize="18dp"
-        android:id="@+id/highscoreTextView" />
+        android:id="@+id/highscoreTextView"
+        android:paddingBottom="100dp"/>
+
+</ScrollView>
 
 </RelativeLayout>
