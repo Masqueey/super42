@@ -12,15 +12,13 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-<<<<<<< HEAD
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-=======
 import com.example.puC.super42.PowerUps.BallSizeDecreaser;
 import com.example.puC.super42.PowerUps.BallSizeIncreaser;
 
->>>>>>> 9893825460db9a203a7e145ade08fe45a05a0ce6
+
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -36,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private static Context context;
     private final String highscorePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/highscores.txt";
     private Bal balSelected;
-<<<<<<< HEAD
+
     private static int fortyOnes = 0;
     private static Date fortyOnesTime;
     private static ReadWrite rw;
@@ -44,11 +42,10 @@ public class MainActivity extends AppCompatActivity {
     public void MainActivity() {
 
     }
-=======
+
     public static double balSizeFactor;
     private CountDownTimer timer;
     public static boolean reached42;
->>>>>>> 9893825460db9a203a7e145ade08fe45a05a0ce6
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,9 +59,8 @@ public class MainActivity extends AppCompatActivity {
         screenWidth = metrics.widthPixels;
         context = MainActivity.this;
         mp2 = MediaPlayer.create(context, R.raw.spawn);
-<<<<<<< HEAD
         rw = new ReadWrite(context);
-=======
+
         reached42 = false;
         balSizeFactor = 1;
         timer = new CountDownTimer(20000,1000) {
@@ -87,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
                 start();
             }
         }.start();
->>>>>>> 9893825460db9a203a7e145ade08fe45a05a0ce6
 
         /**
          * Touch listener for whole screen
@@ -328,7 +323,6 @@ public class MainActivity extends AppCompatActivity {
             mp.start();
     }
 
-<<<<<<< HEAD
 
     public ArrayList<Bal> getBals() {
         ArrayList<Bal> res = new ArrayList<>();
@@ -365,7 +359,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<Bal> b = new ArrayList<>();
         for (Paintable p : myview.paintableObjects) {
             if (p instanceof Bal && null != p)
-                b.add((Bal)p);
+                b.add((Bal) p);
         }
 
         fortyOnes = 0;
@@ -405,9 +399,9 @@ public class MainActivity extends AppCompatActivity {
         if (fortyOnesTime != null && fortyOnes == 0) {
             fortyOnesTime = null;
         }
-=======
+    }
+
     public void setBalSizeFactor(double i) {
         balSizeFactor = i;
->>>>>>> 9893825460db9a203a7e145ade08fe45a05a0ce6
     }
 }

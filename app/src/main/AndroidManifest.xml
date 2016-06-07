@@ -2,76 +2,51 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.puC.super42">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
-        <activity
-            android:name="com.example.puC.super42.MainActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden">
-            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-        </activity>
-        <activity
-            android:name="com.example.puC.super42.StartUp"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name="com.example.puC.super42.MenuActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden">
-            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <activity
+        android:name="com.example.puC.super42.StartUp"
+        android:label="@string/app_name">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
+    <activity
+        android:name="com.example.puC.super42.MenuActivity"
+        android:screenOrientation="portrait"
+        android:windowSoftInputMode="stateAlwaysHidden">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MenuActivity" />
+        <intent-filter>
+            <action android:name="android.intent.action.MenuActivity" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name="com.example.puC.super42.GameOver"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden">
-            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-        </activity>
-<<<<<<< HEAD
-        <activity
-            android:name=".Challenges"
-=======
+            <category android:name="android.intent.category.DEFAULT" />
+        </intent-filter>
+    </activity>
+    <activity
+        android:name="com.example.puC.super42.GameOver"
+        android:screenOrientation="portrait"
+        android:windowSoftInputMode="stateAlwaysHidden"></activity>
 
-        <activity android:name="com.example.puC.super42.Highscores"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
+    <activity
+        android:name="com.example.puC.super42.Challenges"
+        android:screenOrientation="portrait"
+        android:windowSoftInputMode="stateAlwaysHidden"></activity>
 
-        <activity android:name="com.example.puC.super42.Help"
->>>>>>> 9893825460db9a203a7e145ade08fe45a05a0ce6
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden">
-            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-        </activity>
-        <activity
-            android:name=".Highscores"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".Help"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden"></activity>
-    </application>
+    <activity
+        android:name="com.example.puC.super42.Highscores"
+        android:screenOrientation="portrait"
+        android:windowSoftInputMode="stateAlwaysHidden" />
+
+    <activity
+        android:name="com.example.puC.super42.Help"
+        android:screenOrientation="portrait"
+        android:windowSoftInputMode="stateAlwaysHidden"></activity>
 
 </manifest>
