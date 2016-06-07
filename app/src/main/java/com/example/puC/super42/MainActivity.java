@@ -4,11 +4,16 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,7 +29,13 @@ public class MainActivity extends AppCompatActivity {
     private static Context context;
     private final String highscorePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/highscores.txt";
     private Bal balSelected;
+    private static int fortyOnes = 0;
+    private static Date fortyOnesTime;
+    private static ReadWrite rw;
 
+    public void MainActivity() {
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         screenWidth = metrics.widthPixels;
         context = MainActivity.this;
         mp2 = MediaPlayer.create(context, R.raw.spawn);
+        rw = new ReadWrite(context);
 
         /**
          * Touch listener for whole screen
@@ -76,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-
         setContentView(myview);
     }
 
@@ -265,5 +276,83 @@ public class MainActivity extends AppCompatActivity {
             mp.start();
         } else
             mp.start();
+    }
+
+
+    public ArrayList<Bal> getBals() {
+        ArrayList<Bal> res = new ArrayList<>();
+        for (Paintable p : myview.paintableObjects) {
+            if (p instanceof Bal && null != p)
+                res.add((Bal)p);
+        }
+        return res;
+    }
+
+    public static boolean containsSubstring(ArrayList<String> ar, String substr) {
+        for (String s : ar) {
+            if (s.contains(substr)) {
+                return true;
+            }
+        }
+        return  false;
+    }
+
+    public static long dateDiffSec(Date start, Date end) {
+        if (null == start || null == end)
+            return 0;
+        long diffInMillis = end.getTime() - start.getTime();
+        long diffInDays  = diffInMillis/1000/86400;
+        long diffInHours = (diffInMillis/1000 - 86400*diffInDays) / 3600;
+        long diffInMins  = (diffInMillis/1000 - 86400*diffInDays - 3600*diffInHours) / 60;
+        return (diffInMillis/1000 - 86400*diffInDays - 3600*diffInHours - 60*diffInMins);
+
+    }
+
+
+    public static void procesChallenges() {
+
+        ArrayList<Bal> b = new ArrayList<>();
+        for (Paintable p : myview.paintableObjects) {
+            if (p instanceof Bal && null != p)
+                b.add((Bal)p);
+        }
+
+        fortyOnes = 0;
+        ArrayList<String> challangesCompleted = rw.readChallenges();
+
+        for (Bal p : b) {
+            if (p.getVal() == 41) {
+                fortyOnes++;
+                Date d = new Date(System.currentTimeMillis());
+                long timeDiffSec = dateDiffSec(fortyOnesTime, d);
+                //timeDiffSec = timeDiffSec *4;
+                //Log.d("procesChallenges", "timeDiffSec=" + timeDiffSec);
+
+
+                if (fortyOnes == 2 && !containsSubstring(challangesCompleted, "Two 42's in a game")) {
+                    rw.saveChallange("Two 42's in a game!");
+                }
+                if (fortyOnes == 3 && !containsSubstring(challangesCompleted, "Three 42's in a game")) {
+                    rw.saveChallange("Three 42's in a game!");
+                }
+                if (null == fortyOnesTime) {
+                    fortyOnesTime = new Date(System.currentTimeMillis());
+                }
+                if (timeDiffSec > 0) {
+                    if (timeDiffSec > 15 && !containsSubstring(challangesCompleted, "15 seconds with one 41!")) {
+                        rw.saveChallange("15 seconds with one 41!");
+                    }
+                    if (timeDiffSec > 30 && !containsSubstring(challangesCompleted, "30 seconds with one 41!")) {
+                        rw.saveChallange("30 seconds with one 41!");
+                    }
+                    if (timeDiffSec > 60 && !containsSubstring(challangesCompleted, "60 seconds with one 41!")) {
+                        rw.saveChallange("60 seconds with one 41!");
+                    }
+                }
+            }
+        }
+        if (fortyOnesTime != null && fortyOnes == 0) {
+            fortyOnesTime = null;
+        }
     }
 }

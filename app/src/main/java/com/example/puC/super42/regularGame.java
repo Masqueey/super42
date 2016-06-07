@@ -135,7 +135,7 @@ public class RegularGame {
         alive = false;
         Log.d("setDead", "u died alive=" + alive);
         Log.d("openDieActivity", "started");
-        GetSetScore s = new GetSetScore(c);
+        ReadWrite s = new ReadWrite(c);
         s.saveScore(Integer.toString(points));
         Intent intent = new Intent(c, GameOver.class);
         intent.putExtra("Score", points);

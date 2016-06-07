@@ -67,6 +67,7 @@ public class MyView extends View implements View.OnClickListener{
                 MainActivity.detectCollisions();
                 MainActivity.spawn();
                 drawScore(c);
+                MainActivity.procesChallenges();
                 postInvalidateDelayed(33);
         }
 
