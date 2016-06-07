@@ -42,9 +42,13 @@ public class MainActivity extends AppCompatActivity {
     private static Date fortyOnesTime;
     private static ReadWrite rw;
 
-    //public void MainActivity() {    }
-
-
+    public void onBackPressed(){
+        if(regularGame.getAlive() == true){
+            regularGame.setDead(context);
+        }else{
+            super.onBackPressed();
+        }
+    }
 
     private CountDownTimer timer;
     private String PowerDescription;
@@ -68,6 +72,9 @@ public class MainActivity extends AppCompatActivity {
         rw = new ReadWrite(context);
 
         reached42 = false;
+
+        balSizeFactor = 1;
+        MaxpathlengtFactor = 1;
 
         timer = new CountDownTimer(10000,1000) {
 
@@ -123,18 +130,18 @@ public class MainActivity extends AppCompatActivity {
 
                             balSelected = bal;
                             balSelected.setIsSelected(true);
-                            balSelected.addPath(new float[]{x, y});
+                            balSelected.addPath(new float[]{x, y},MaxpathlengtFactor);
                         }
                         break;
                     // On swipe (so after the first touch and keeping touching)
                     case MotionEvent.ACTION_MOVE:
                         if (null != bal && null == balSelected && bal.getPath().size() == 0) {
                             balSelected = bal;
-                            balSelected.addPath(new float[]{x, y});
+                            balSelected.addPath(new float[]{x, y},MaxpathlengtFactor);
                         } else if (null != balSelected)
                             {
                             balSelected.setIsSelected(true);
-                            if(balSelected.addPath(new float[]{x, y}) == false){
+                            if(balSelected.addPath(new float[]{x, y},MaxpathlengtFactor) == false){
                                 balSelected = null;
                             }
                         }
@@ -150,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
         });
         setContentView(myview);
     }
+
     private Power randomPowerupCreator(int i){
         i = i%2;
         switch(i){
@@ -299,10 +307,17 @@ public class MainActivity extends AppCompatActivity {
     public static void spawn() {
         int size = myview.paintableObjects.size();
         // Checks how many objects there are in the view and also a random check so object won't spawn too fast
+        // Random x,y coordinates
+        int x;
+        int y;
+
+        //x and y on the edge of the screen
+        if(r.nextBoolean()){x = 1;}
+        else{               x = (int)screenWidth -1; }
+        if(r.nextBoolean()){y = 1;}
+        else{               y = (int)screenHeight -1; }
+
         if (size > 2 && size < 7 && r.nextInt(size * 20) == 42) {
-            // Random x,y coordinates
-            int x = r.nextInt(myview.getWidth());
-            int y = r.nextInt(myview.getHeight());
             // Try 10 times if coordinates are not to close to all other objects
             for (int i = 0; i < 10; i++) {
                 for (int j = 0; j < size; j++) {
@@ -317,12 +332,15 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }
-                x = r.nextInt(myview.getWidth());
-                y = r.nextInt(myview.getHeight());
+                //x and y on the edge of the screen
+                if(r.nextBoolean()){x = 1;}
+                else{               x = (int)screenWidth -1; }
+                if(r.nextBoolean()){y = 1;}
+                else{               y = (int)screenHeight -1; }
             }
             // if there are no objects spawn a object
         } else if (size < 3) {
-            createAndAddBall(r.nextInt(myview.getWidth()), r.nextInt(myview.getHeight()), (float) r.nextInt(180), 70, r.nextInt(10) + 1, 1);
+            createAndAddBall(x, y, (float) r.nextInt(180), 70, r.nextInt(10) + 1, 1);
         }
     }
 
@@ -435,7 +453,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static double getBalSizeFactor() {return balSizeFactor;}
 
-    public static double getMaxpathlengtFactor() {return MaxpathlengtFactor;}
+    public  static double getMaxpathlengtFactor() {return MaxpathlengtFactor;}
 
-    public static void setMaxpathlengtFactor(double maxpathlengtFactor) {MaxpathlengtFactor = maxpathlengtFactor;}
+    public  static void setMaxpathlengtFactor(double maxpathlengtFactor) {MaxpathlengtFactor = maxpathlengtFactor;}
 }

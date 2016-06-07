@@ -7,7 +7,9 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * This hold the basic settings of a regular game.
+ */
 public class RegularGame {
 
     private int points;
@@ -16,7 +18,7 @@ public class RegularGame {
     private boolean alive;
     private int nrOfFortyTwos;
 
-
+    //Basic settings
     RegularGame(){
         balls = new ArrayList<Bal>();
         points = 0;
@@ -24,7 +26,7 @@ public class RegularGame {
         alive = true;
     }
 
-
+    //Definition of a collision
     public boolean collision(){
         boolean tempCollision = false;
         for(Bal bal : balls){
@@ -38,7 +40,7 @@ public class RegularGame {
         }
         return tempCollision;
     }
-
+    //Getters
     public int getNrOfBalls(){
         return balls.size();
     }
@@ -58,7 +60,7 @@ public class RegularGame {
     public int getnrOfFortyTwos(){
         return nrOfFortyTwos;
     }
-
+    //Setter
     public void addAFortyTwo(){
         MainActivity.reached42 = true;
         nrOfFortyTwos++;
@@ -123,18 +125,17 @@ public class RegularGame {
     public int mergePoints(Bal mergedBal){
         return mergedBal.getSize()* mergedBal.getVal();
     }
-
+    //Getter
     public int getPoints(){
         return points;
     }
-
+    //Another getter
     public boolean getAlive(){
         return alive;
     }
 
     public void setDead(Context c){
         alive = false;
-        //timer.
         Log.d("setDead", "u died alive=" + alive);
         Log.d("openDieActivity", "started");
         ReadWrite s = new ReadWrite(c);

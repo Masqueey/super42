@@ -3,6 +3,7 @@ package com.example.puC.super42;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -208,11 +209,13 @@ public class Bal implements Paintable {
         return new float[]{this.centerX, this.centerY};
     }
 
-    //boolean true als path nog veder mag gaan af is
-    public boolean addPath(float[] coord) {
+    //boolean true als het path nog veder mag gaan
+    public boolean addPath(float[] coord, double MaxpathlengtFactor) {
+        Log.d("MaxpathlengtFactor",""+(720.0 * screenRatio * MaxpathlengtFactor) + "balSizeFactor" + MaxpathlengtFactor );
+
         if (coord.length != 2 )
             return true;
-        else if(pathLength > 720.0 * screenRatio * MainActivity.balSizeFactor){
+        else if(pathLength > 720.0 * screenRatio * MaxpathlengtFactor){
             return false;
         }
 

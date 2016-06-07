@@ -34,20 +34,19 @@ public class PathIncreaser extends Power {
 
     public void increaseDifficulty(){
         difficulty++;
-        return;
     }
 
     @Override
     public void changeGame() {
         PathLengtFactor = act.getMaxpathlengtFactor();
         act.setMaxpathlengtFactor(2);
-        Log.d("Long Path", "The PathFactor has been decreased to: "+ act.getMaxpathlengtFactor());
+        Log.d("Long Path", "The PathFactor has been decreased to: "+ MainActivity.getMaxpathlengtFactor());
         return;
     }
 
     public void revertChangeGame() {
-        act.setBalSizeFactor(PathLengtFactor);
-        Log.d("revert Long Path", "The PathFactor has been set to: " + act.getMaxpathlengtFactor());
+        act.setMaxpathlengtFactor(PathLengtFactor);
+        Log.d("revert Long Path", "The PathFactor has been set to: " + MainActivity.getMaxpathlengtFactor());
         return;
     }
 

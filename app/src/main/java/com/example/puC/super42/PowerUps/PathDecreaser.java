@@ -41,13 +41,13 @@ public class PathDecreaser extends Power {
     public void changeGame() {
         PathLengtFactor = act.getMaxpathlengtFactor();
         act.setMaxpathlengtFactor(0.5);
-        Log.d("Short Path", "The PathFactor has been decreased to: " + act.getMaxpathlengtFactor());
+        Log.d("Short Path", "The PathFactor has been decreased to: " + act.MaxpathlengtFactor);
         return;
     }
 
     public void revertChangeGame() {
         act.setMaxpathlengtFactor(PathLengtFactor);
-        Log.d("revert Short Path", "The PathFactor has been set to: " + act.getMaxpathlengtFactor());
+        Log.d("revert Short Path", "The PathFactor has been set to: " + act.MaxpathlengtFactor);
         return;
     }
 

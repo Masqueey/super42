@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * The class that takes in account every challenge and achievement in the game.
+ */
 public class Challenges extends Activity{
     TextView challengesCompleted;
 
