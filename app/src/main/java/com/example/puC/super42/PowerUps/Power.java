@@ -5,6 +5,10 @@ import com.example.puC.super42.MainActivity;
 /**
  * Created by Gijs on 5-6-2016.
  */
+
+/*
+Dit levert de basis-eisen waar een powerup aan moet voldoen.
+ */
 public abstract class Power implements GameChanger {
 
     public int difficulty;

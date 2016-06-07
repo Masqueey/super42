@@ -6,10 +6,10 @@ import com.example.puC.super42.MainActivity;
 
 /**
  * Created by Gijs on 6-6-2016.
+ * Edited by Man on 7-6-2016.
  */
 public class BallSizeIncreaser extends Power
 {
-
         private int difficulty;
         private int duration;
         private PowerKindOf powerKindOf;
@@ -34,7 +34,10 @@ public class BallSizeIncreaser extends Power
             difficulty++;
         }
 
-        @Override
+    /**
+     * Dit vergroot alle ballen en de balgrote na de merges.
+     */
+    @Override
         public void changeGame() {
             act.setBalSizeFactor(act.balSizeFactor*1.025);
             Log.d("Increase size", "The ballSizeFactor has been increased to: " + act.balSizeFactor);
