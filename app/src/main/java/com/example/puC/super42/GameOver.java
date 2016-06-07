@@ -23,8 +23,8 @@ public class GameOver extends AppCompatActivity {
         );
 
         highscores = (TextView) findViewById(R.id.highscores);
-        GetSetScore getSetScore = new GetSetScore(GameOver.this);
-        ArrayList<String> scores= getSetScore.readHighscores();
+        ReadWrite ReadWrite = new ReadWrite(GameOver.this);
+        ArrayList<String> scores= ReadWrite.readHighscores();
         for (String s : scores) {
             highscores.append(s.replaceFirst("\\s", "\t\t") + "\n");
         }
