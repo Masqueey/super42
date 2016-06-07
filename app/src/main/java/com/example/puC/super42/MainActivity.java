@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import com.example.puC.super42.PowerUps.BallSizeDecreaser;
 import com.example.puC.super42.PowerUps.BallSizeIncreaser;
+import com.example.puC.super42.PowerUps.PathDecreaser;
+import com.example.puC.super42.PowerUps.PathIncreaser;
 import com.example.puC.super42.PowerUps.Power;
 
 
@@ -40,21 +42,22 @@ public class MainActivity extends AppCompatActivity {
     private static Date fortyOnesTime;
     private static ReadWrite rw;
 
-    public void MainActivity() {
+    //public void MainActivity() {    }
 
-    }
 
-    public static double balSizeFactor;
+
     private CountDownTimer timer;
     private String PowerDescription;
     public static boolean reached42;
     private Power currentpower;
+    //powervariables:
+    public static double balSizeFactor = 1;
+    public static double MaxpathlengtFactor = 1; //Used in class bal at public void addPath(float[] coord)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.regularGame = new RegularGame();
-
         myview = new MyView(this);
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -65,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
         rw = new ReadWrite(context);
 
         reached42 = false;
-        balSizeFactor = 1;
 
         timer = new CountDownTimer(10000,1000) {
 
@@ -98,6 +100,8 @@ public class MainActivity extends AppCompatActivity {
                     currentpower = randomPowerdownCreator(r.nextInt(100));
                 else
                     currentpower = randomPowerupCreator(r.nextInt(100));
+
+                currentpower.changeGame();
                 reached42=false;
                 start();
             }
@@ -116,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
                     // On first touch
                     case MotionEvent.ACTION_DOWN:
                         if (null != bal && bal.getPath().size() == 0) {
+
                             balSelected = bal;
                             balSelected.setIsSelected(true);
                             balSelected.addPath(new float[]{x, y});
@@ -125,17 +130,20 @@ public class MainActivity extends AppCompatActivity {
                     case MotionEvent.ACTION_MOVE:
                         if (null != bal && null == balSelected && bal.getPath().size() == 0) {
                             balSelected = bal;
-                            balSelected.setIsSelected(true);
                             balSelected.addPath(new float[]{x, y});
-                        } else if (null != balSelected) {
+                        } else if (null != balSelected)
+                            {
                             balSelected.setIsSelected(true);
-                            balSelected.addPath(new float[]{x, y});
+                            if(balSelected.addPath(new float[]{x, y}) == false){
+                                balSelected = null;
+                            }
                         }
                         break;
                     // On finger of screen
                     case MotionEvent.ACTION_UP:
                         balSelected = null;
                         break;
+
                 }
                 return true;
             }
@@ -143,16 +151,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(myview);
     }
     private Power randomPowerupCreator(int i){
-        i = i%1;
+        i = i%2;
         switch(i){
-
-            default: BallSizeDecreaser decreaser = new BallSizeDecreaser(this);  decreaser.changeGame(); return decreaser;
+            case 1:  PathIncreaser pathinc = new PathIncreaser(this);               return pathinc;
+            default: BallSizeDecreaser decreaser = new BallSizeDecreaser(this);     return decreaser;
         }
     }
     private Power randomPowerdownCreator(int i){
-        i=i%1;
+        i=i%2;
         switch(i){
-            default: BallSizeIncreaser increaser = new BallSizeIncreaser(this);  increaser.changeGame(); return increaser;
+            case 1:  PathDecreaser pathdec = new PathDecreaser(this);               return pathdec;
+            default: BallSizeIncreaser increaser = new BallSizeIncreaser(this);;    return increaser;
         }
     }
 
@@ -425,4 +434,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static double getBalSizeFactor() {return balSizeFactor;}
+
+    public static double getMaxpathlengtFactor() {return MaxpathlengtFactor;}
+
+    public static void setMaxpathlengtFactor(double maxpathlengtFactor) {MaxpathlengtFactor = maxpathlengtFactor;}
 }

@@ -3,7 +3,6 @@ package com.example.puC.super42;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -16,7 +15,7 @@ public class Bal implements Paintable {
     private double direction;
     private boolean isSelected;
     private ArrayList<float[]> path;
-    private final float ratio;
+    private final float screenRatio;
     private int size, val;
     private float pathLength = 0;
 
@@ -28,8 +27,8 @@ public class Bal implements Paintable {
         painttext = new Paint();
         painttext.setColor(Color.WHITE);
         painttext.setTextAlign(Paint.Align.CENTER);
-        ratio = MainActivity.screenWidth / 720;
-        this.radius =  ratio * initialRadius * sizeAdjustment * (float) MainActivity.balSizeFactor;
+        screenRatio = MainActivity.screenWidth / 720;
+        this.radius =  screenRatio * initialRadius * sizeAdjustment * (float) MainActivity.balSizeFactor;
         painttext.setTextSize((float) (radius * 0.75));
         paintline = new Paint();
         paintline.setStrokeWidth(12);
@@ -209,9 +208,13 @@ public class Bal implements Paintable {
         return new float[]{this.centerX, this.centerY};
     }
 
-    public void addPath(float[] coord) {
-        if (coord.length != 2 || pathLength > 720.0 * 2 * ratio)
-            return;
+    //boolean true als path nog veder mag gaan af is
+    public boolean addPath(float[] coord) {
+        if (coord.length != 2 )
+            return true;
+        else if(pathLength > 720.0 * screenRatio * MainActivity.balSizeFactor){
+            return false;
+        }
 
         float[] checked = checkCoord(new float[]{coord[0], coord[1]});
         coord[0] = checked[0];
@@ -227,6 +230,7 @@ public class Bal implements Paintable {
         }
 
         path.add(new float[]{coord[0], coord[1]});
+        return true;
     }
 
     public void setIsSelected(boolean b) {
