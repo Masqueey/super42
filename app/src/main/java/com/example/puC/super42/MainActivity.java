@@ -12,6 +12,7 @@ import android.view.View;
 
 import com.example.puC.super42.PowerUps.BallSizeDecreaser;
 import com.example.puC.super42.PowerUps.BallSizeIncreaser;
+import com.example.puC.super42.PowerUps.Power;
 
 import java.util.Random;
 
@@ -30,7 +31,9 @@ public class MainActivity extends AppCompatActivity {
     private Bal balSelected;
     public static double balSizeFactor;
     private CountDownTimer timer;
+    private String PowerDescription;
     public static boolean reached42;
+    private Power currentpower;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,22 +49,38 @@ public class MainActivity extends AppCompatActivity {
         mp2 = MediaPlayer.create(context, R.raw.spawn);
         reached42 = false;
         balSizeFactor = 1;
-        timer = new CountDownTimer(20000,1000) {
+
+        timer = new CountDownTimer(10000,1000) {
+
             @Override
             public void onTick(long millisUntilFinished) {
                 myview.updateTime((int)millisUntilFinished/1000);
+
+
                 if(regularGame.getAlive() == false){
-                    //balSizeFactor = 1;
                     timer.cancel();
                 }
+
+                if( currentpower != null){
+                    myview.updatePowerDescription(currentpower.getDescription());
+                }
+                else{
+                    myview.updatePowerDescription("No power");
+                }
+
             }
 
             @Override
             public void onFinish() {
+
+                if(currentpower != null){
+                    currentpower.revertChangeGame();
+                }
+
                 if(!reached42)
-                    randomPowerdownCreator(r.nextInt(100));
+                    currentpower = randomPowerdownCreator(r.nextInt(100));
                 else
-                    randomPowerupCreator(r.nextInt(100));
+                    currentpower = randomPowerupCreator(r.nextInt(100));
                 reached42=false;
                 start();
             }
@@ -107,17 +126,17 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(myview);
     }
-    private void randomPowerupCreator(int i){
+    private Power randomPowerupCreator(int i){
         i = i%1;
         switch(i){
 
-            default: BallSizeDecreaser decreaser = new BallSizeDecreaser(this);  decreaser.changeGame(); return;
+            default: BallSizeDecreaser decreaser = new BallSizeDecreaser(this);  decreaser.changeGame(); return decreaser;
         }
     }
-    private void randomPowerdownCreator(int i){
+    private Power randomPowerdownCreator(int i){
         i=i%1;
         switch(i){
-            default: BallSizeIncreaser increaser = new BallSizeIncreaser(this);  increaser.changeGame(); return;
+            default: BallSizeIncreaser increaser = new BallSizeIncreaser(this);  increaser.changeGame(); return increaser;
         }
     }
 
@@ -310,4 +329,6 @@ public class MainActivity extends AppCompatActivity {
     public void setBalSizeFactor(double i) {
         balSizeFactor = i;
     }
+
+    public static double getBalSizeFactor() {return balSizeFactor;}
 }

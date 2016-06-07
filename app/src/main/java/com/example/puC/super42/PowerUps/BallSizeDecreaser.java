@@ -9,10 +9,11 @@ import com.example.puC.super42.MainActivity;
  */
 public class BallSizeDecreaser extends Power {
 
+    private String Description = "Small Balls";
     private int difficulty;
     private int duration;
     private PowerKindOf powerKindOf;
-
+    private double previousBalSizeFactor;
     public BallSizeDecreaser(MainActivity act){
         super(act);
         // this.difficulty = super.getDifficulty();
@@ -22,6 +23,11 @@ public class BallSizeDecreaser extends Power {
 
     public PowerKindOf getPowerKindOf(){
         return powerKindOf;
+    }
+
+    @Override
+    public String getDescription() {
+        return Description;
     }
 
     public int getDuration(){
@@ -35,8 +41,15 @@ public class BallSizeDecreaser extends Power {
 
     @Override
     public void changeGame() {
-        act.setBalSizeFactor(act.balSizeFactor *0.9);
-        Log.d("Increase size", "The ballSizeFactor has been decreased to: " + act.balSizeFactor);
+        previousBalSizeFactor = act.getBalSizeFactor();
+        act.setBalSizeFactor(act.getBalSizeFactor()*0.90);
+        Log.d("Decrease size", "The ballSizeFactor has been decreased to: " + act.getBalSizeFactor());
+        return;
+    }
+
+    public void revertChangeGame() {
+        act.setBalSizeFactor(previousBalSizeFactor);
+        Log.d("revert Decrease size", "The ballSizeFactor has been set to: " + act.getBalSizeFactor());
         return;
     }
 

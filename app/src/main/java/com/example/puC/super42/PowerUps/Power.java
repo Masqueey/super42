@@ -33,7 +33,11 @@ public abstract class Power implements GameChanger {
 
     public abstract PowerKindOf getPowerKindOf();
 
+    public abstract String getDescription();
+
     public abstract void changeGame();
+
+    public abstract void revertChangeGame();
 
     public abstract void notifyPlayer();
 
