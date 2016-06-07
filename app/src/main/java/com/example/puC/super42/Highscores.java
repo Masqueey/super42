@@ -26,6 +26,7 @@ public class Highscores extends Activity {
         highscores = (TextView) findViewById(R.id.highscoreTextView);
         highscores.append(Html.fromHtml("<b>Highscores</b><br><br>"));
 
+
         ReadWrite rw = new ReadWrite(Highscores.this);
         ArrayList<String> scores= rw.readHighscores();
         for (String s : scores) {
