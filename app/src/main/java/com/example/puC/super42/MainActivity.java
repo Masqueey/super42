@@ -69,6 +69,9 @@ public class MainActivity extends AppCompatActivity {
 
         reached42 = false;
 
+        balSizeFactor = 1;
+        MaxpathlengtFactor = 1;
+
         timer = new CountDownTimer(10000,1000) {
 
             @Override
@@ -299,10 +302,17 @@ public class MainActivity extends AppCompatActivity {
     public static void spawn() {
         int size = myview.paintableObjects.size();
         // Checks how many objects there are in the view and also a random check so object won't spawn too fast
+        // Random x,y coordinates
+        int x;
+        int y;
+
+        //x and y on the edge of the screen
+        if(r.nextBoolean()){x = 1;}
+        else{               x = (int)screenWidth -1; }
+        if(r.nextBoolean()){y = 1;}
+        else{               y = (int)screenHeight -1; }
+
         if (size > 2 && size < 7 && r.nextInt(size * 20) == 42) {
-            // Random x,y coordinates
-            int x = r.nextInt(myview.getWidth());
-            int y = r.nextInt(myview.getHeight());
             // Try 10 times if coordinates are not to close to all other objects
             for (int i = 0; i < 10; i++) {
                 for (int j = 0; j < size; j++) {
@@ -317,12 +327,15 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }
-                x = r.nextInt(myview.getWidth());
-                y = r.nextInt(myview.getHeight());
+                //x and y on the edge of the screen
+                if(r.nextBoolean()){x = 1;}
+                else{               x = (int)screenWidth -1; }
+                if(r.nextBoolean()){y = 1;}
+                else{               y = (int)screenHeight -1; }
             }
             // if there are no objects spawn a object
         } else if (size < 3) {
-            createAndAddBall(r.nextInt(myview.getWidth()), r.nextInt(myview.getHeight()), (float) r.nextInt(180), 70, r.nextInt(10) + 1, 1);
+            createAndAddBall(x, y, (float) r.nextInt(180), 70, r.nextInt(10) + 1, 1);
         }
     }
 
