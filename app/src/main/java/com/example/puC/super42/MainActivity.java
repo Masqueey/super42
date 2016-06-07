@@ -44,7 +44,14 @@ public class MainActivity extends AppCompatActivity {
 
     //public void MainActivity() {    }
 
-
+    //
+    public void onBackPressed(){
+        if(regularGame.getAlive() == true){
+            regularGame.setDead(context);
+        }else{
+            super.onBackPressed();
+        }
+    }
 
     private CountDownTimer timer;
     private String PowerDescription;
@@ -153,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
         });
         setContentView(myview);
     }
+
     private Power randomPowerupCreator(int i){
         i = i%2;
         switch(i){

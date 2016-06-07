@@ -134,7 +134,6 @@ public class RegularGame {
 
     public void setDead(Context c){
         alive = false;
-        //timer.
         Log.d("setDead", "u died alive=" + alive);
         Log.d("openDieActivity", "started");
         ReadWrite s = new ReadWrite(c);

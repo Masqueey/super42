@@ -10,8 +10,14 @@ public class GameOver extends AppCompatActivity {
     TextView infoGame;
     TextView highscores;
 
+    public void onBackPressed(){
+
+        super.onBackPressed();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gameover);
         Bundle extras = getIntent().getExtras();
