@@ -12,14 +12,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.puC.super42.MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden">
             <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
             <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
         </activity>
         <activity
-            android:name=".StartUp"
+            android:name="com.example.puC.super42.StartUp"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
@@ -29,7 +29,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MenuActivity"
+            android:name="com.example.puC.super42.MenuActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden">
             <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -42,14 +42,23 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".GameOver"
+            android:name="com.example.puC.super42.GameOver"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden">
             <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
             <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
         </activity>
+<<<<<<< HEAD
         <activity
             android:name=".Challenges"
+=======
+
+        <activity android:name="com.example.puC.super42.Highscores"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+
+        <activity android:name="com.example.puC.super42.Help"
+>>>>>>> 9893825460db9a203a7e145ade08fe45a05a0ce6
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden">
             <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />

@@ -3,6 +3,7 @@ package com.example.puC.super42;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
@@ -11,9 +12,15 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+<<<<<<< HEAD
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+=======
+import com.example.puC.super42.PowerUps.BallSizeDecreaser;
+import com.example.puC.super42.PowerUps.BallSizeIncreaser;
+
+>>>>>>> 9893825460db9a203a7e145ade08fe45a05a0ce6
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -29,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private static Context context;
     private final String highscorePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/highscores.txt";
     private Bal balSelected;
+<<<<<<< HEAD
     private static int fortyOnes = 0;
     private static Date fortyOnesTime;
     private static ReadWrite rw;
@@ -36,6 +44,11 @@ public class MainActivity extends AppCompatActivity {
     public void MainActivity() {
 
     }
+=======
+    public static double balSizeFactor;
+    private CountDownTimer timer;
+    public static boolean reached42;
+>>>>>>> 9893825460db9a203a7e145ade08fe45a05a0ce6
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +62,32 @@ public class MainActivity extends AppCompatActivity {
         screenWidth = metrics.widthPixels;
         context = MainActivity.this;
         mp2 = MediaPlayer.create(context, R.raw.spawn);
+<<<<<<< HEAD
         rw = new ReadWrite(context);
+=======
+        reached42 = false;
+        balSizeFactor = 1;
+        timer = new CountDownTimer(20000,1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                myview.updateTime((int)millisUntilFinished/1000);
+                if(regularGame.getAlive() == false){
+                    //balSizeFactor = 1;
+                    timer.cancel();
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                if(!reached42)
+                    randomPowerdownCreator(r.nextInt(100));
+                else
+                    randomPowerupCreator(r.nextInt(100));
+                reached42=false;
+                start();
+            }
+        }.start();
+>>>>>>> 9893825460db9a203a7e145ade08fe45a05a0ce6
 
         /**
          * Touch listener for whole screen
@@ -90,7 +128,19 @@ public class MainActivity extends AppCompatActivity {
         });
         setContentView(myview);
     }
+    private void randomPowerupCreator(int i){
+        i = i%1;
+        switch(i){
 
+            default: BallSizeDecreaser decreaser = new BallSizeDecreaser(this);  decreaser.changeGame(); return;
+        }
+    }
+    private void randomPowerdownCreator(int i){
+        i=i%1;
+        switch(i){
+            default: BallSizeIncreaser increaser = new BallSizeIncreaser(this);  increaser.changeGame(); return;
+        }
+    }
 
     /**
      * Returns the Bal at your touching position if there is one otherwise null
@@ -278,6 +328,7 @@ public class MainActivity extends AppCompatActivity {
             mp.start();
     }
 
+<<<<<<< HEAD
 
     public ArrayList<Bal> getBals() {
         ArrayList<Bal> res = new ArrayList<>();
@@ -354,5 +405,9 @@ public class MainActivity extends AppCompatActivity {
         if (fortyOnesTime != null && fortyOnes == 0) {
             fortyOnesTime = null;
         }
+=======
+    public void setBalSizeFactor(double i) {
+        balSizeFactor = i;
+>>>>>>> 9893825460db9a203a7e145ade08fe45a05a0ce6
     }
 }

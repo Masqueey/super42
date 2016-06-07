@@ -19,7 +19,7 @@ public class GameOver extends AppCompatActivity {
         infoGame = (TextView) findViewById(R.id.infoGame);
         infoGame.append(
                 "Score: " + extras.get("Score") + "\n" +
-                "Number of fortytwos: " + extras.get("FortyTwos")
+                "Number of 42's: " + extras.get("FortyTwos")
         );
 
         highscores = (TextView) findViewById(R.id.highscores);
