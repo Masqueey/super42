@@ -123,18 +123,18 @@ public class MainActivity extends AppCompatActivity {
 
                             balSelected = bal;
                             balSelected.setIsSelected(true);
-                            balSelected.addPath(new float[]{x, y});
+                            balSelected.addPath(new float[]{x, y},MaxpathlengtFactor);
                         }
                         break;
                     // On swipe (so after the first touch and keeping touching)
                     case MotionEvent.ACTION_MOVE:
                         if (null != bal && null == balSelected && bal.getPath().size() == 0) {
                             balSelected = bal;
-                            balSelected.addPath(new float[]{x, y});
+                            balSelected.addPath(new float[]{x, y},MaxpathlengtFactor);
                         } else if (null != balSelected)
                             {
                             balSelected.setIsSelected(true);
-                            if(balSelected.addPath(new float[]{x, y}) == false){
+                            if(balSelected.addPath(new float[]{x, y},MaxpathlengtFactor) == false){
                                 balSelected = null;
                             }
                         }
@@ -435,7 +435,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static double getBalSizeFactor() {return balSizeFactor;}
 
-    public static double getMaxpathlengtFactor() {return MaxpathlengtFactor;}
+    public  static double getMaxpathlengtFactor() {return MaxpathlengtFactor;}
 
-    public static void setMaxpathlengtFactor(double maxpathlengtFactor) {MaxpathlengtFactor = maxpathlengtFactor;}
+    public  static void setMaxpathlengtFactor(double maxpathlengtFactor) {MaxpathlengtFactor = maxpathlengtFactor;}
 }

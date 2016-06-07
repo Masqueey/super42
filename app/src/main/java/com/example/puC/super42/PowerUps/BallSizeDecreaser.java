@@ -42,7 +42,7 @@ public class BallSizeDecreaser extends Power {
     @Override
     public void changeGame() {
         previousBalSizeFactor = act.getBalSizeFactor();
-        act.setBalSizeFactor(act.getBalSizeFactor()*0.90);
+        act.setBalSizeFactor(act.getBalSizeFactor()*0.80);
         Log.d("Decrease size", "The ballSizeFactor has been decreased to: " + act.getBalSizeFactor());
         return;
     }
