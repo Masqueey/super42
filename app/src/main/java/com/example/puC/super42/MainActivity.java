@@ -39,14 +39,14 @@ public class MainActivity extends AppCompatActivity {
     private static Date fortyOnesTime;
     private static ReadWrite rw;
 
-    public void MainActivity() {
-
-    }
-
     public static double balSizeFactor;
     private CountDownTimer timer;
     public static boolean reached42;
 
+    /**
+     * Starts a new game.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
         reached42 = false;
         balSizeFactor = 1;
+        //Creates the countdowntimer that is used for powerups.
         timer = new CountDownTimer(20000,1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -123,6 +124,11 @@ public class MainActivity extends AppCompatActivity {
         });
         setContentView(myview);
     }
+
+    /**
+     * Called onto by the timer, this function is used to select a powerup
+     * @param i
+     */
     private void randomPowerupCreator(int i){
         i = i%1;
         switch(i){
@@ -130,6 +136,11 @@ public class MainActivity extends AppCompatActivity {
             default: BallSizeDecreaser decreaser = new BallSizeDecreaser(this);  decreaser.changeGame(); return;
         }
     }
+
+    /**
+     * Called onto by the timer, this function is used to select a powerdown
+     * @param i
+     */
     private void randomPowerdownCreator(int i){
         i=i%1;
         switch(i){
@@ -323,7 +334,10 @@ public class MainActivity extends AppCompatActivity {
             mp.start();
     }
 
-
+    /**
+     * Creates or holds a list of all Bals currently in play
+     * @return
+     */
     public ArrayList<Bal> getBals() {
         ArrayList<Bal> res = new ArrayList<>();
         for (Paintable p : myview.paintableObjects) {
@@ -333,6 +347,12 @@ public class MainActivity extends AppCompatActivity {
         return res;
     }
 
+    /**
+     * Checks whether something holds a substring.
+     * @param ar
+     * @param substr
+     * @return
+     */
     public static boolean containsSubstring(ArrayList<String> ar, String substr) {
         for (String s : ar) {
             if (s.contains(substr)) {
@@ -342,6 +362,12 @@ public class MainActivity extends AppCompatActivity {
         return  false;
     }
 
+    /**
+     * Returns the difference of the date in seconds.
+     * @param start
+     * @param end
+     * @return
+     */
     public static long dateDiffSec(Date start, Date end) {
         if (null == start || null == end)
             return 0;
@@ -353,7 +379,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
+    /**
+     * The function used to check whether certain challenges are achieved.
+     */
     public static void procesChallenges() {
 
         ArrayList<Bal> b = new ArrayList<>();

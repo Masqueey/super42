@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by Medard on 16-May-16.
  */
-public class MyView extends View implements View.OnClickListener{
+public class MyView extends View {
     List<Paintable> paintableObjects = new ArrayList<Paintable>();
     public static float canvasWidth = 0;
     public static float canvasHeight = 0;
@@ -31,31 +31,23 @@ public class MyView extends View implements View.OnClickListener{
         paintableObjects.add(paintable);
     }
 
-    // nog even kijken hoe dit werkt
-    private int centerX;
-    private int centerY;
-
-    @Override
-    protected void onSizeChanged(int w, int h, int oldW, int oldH) {
-        centerX = w / 2;
-        centerY = h / 2;
-    }
-
-
-
+    /**
+     * Everytime the view gets drawn, this function is used to draw everything.
+     * @param c
+     */
     protected void onDraw(Canvas c) {
-        if (0 == canvasHeight) {
+        if (0 == canvasHeight) { //If there is no set height or width, these get set here.
             canvasHeight = c.getHeight();
             canvasWidth = c.getWidth();
         }
 
-        for (int i = 0; i < paintableObjects.size(); i++) {
+        for (int i = 0; i < paintableObjects.size(); i++) { //For every object that needs to be drawn, it gets drawn.
             paintableObjects.get(i).paint(c);
             if(MainActivity.regularGame.getAlive()) {
                 paintableObjects.get(i).MovetoNextPos(c);
             }
         }
-        if(MainActivity.regularGame.getAlive()) {
+        if(MainActivity.regularGame.getAlive()) {//The control function that keeps every process running.
                 MainActivity.detectCollisions();
                 MainActivity.spawn();
                 drawScore(c);
@@ -67,7 +59,7 @@ public class MyView extends View implements View.OnClickListener{
 
     /**
      *
-     * @param c is the canvas where being drawad on
+     * @param c is the canvas where there is being drawn on
      * current score is printed
      */
     protected void drawScore(Canvas c){
@@ -79,21 +71,13 @@ public class MyView extends View implements View.OnClickListener{
         c.drawText("Power Time:" + countdowntime,0,140,paint);
     }
 
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event){
-
-        AddPaintable(new Bal(20,20,20,70,26,1));
-        return false;
-    }
-
+    /**
+     * Setter for the countdown time
+     * @param countdowntime
+     */
     public void updateTime(int countdowntime){
         this.countdowntime = countdowntime;
     }
 
-    @Override
-    public void onClick(View v) {
-        AddPaintable(new Bal(20,20,20,70,20,1));
     }
-}
 

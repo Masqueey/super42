@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+/**
+ * The menu with all it's buttons.
+ */
 public class MenuActivity extends AppCompatActivity {
     static ImageView imageView;
 
@@ -16,7 +19,11 @@ public class MenuActivity extends AppCompatActivity {
         imageButtonuttonOnClickListener();
     }
 
+    /**
+     * Starts the activity that is selected by the button press.
+     */
     public void imageButtonuttonOnClickListener() {
+        //Starts a new game
         imageView = (ImageView) findViewById(R.id.new_game);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -24,7 +31,7 @@ public class MenuActivity extends AppCompatActivity {
                 startActivity(new Intent(MenuActivity.this,MainActivity.class));
             }
         });
-
+        //Opens highscores
         imageView = (ImageView) findViewById(R.id.highscores);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -32,7 +39,7 @@ public class MenuActivity extends AppCompatActivity {
                 startActivity(new Intent(MenuActivity.this,Highscores.class));
             }
         });
-
+        //Opens the help
         imageView = (ImageView) findViewById(R.id.help);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,7 +47,7 @@ public class MenuActivity extends AppCompatActivity {
                 startActivity(new Intent(MenuActivity.this,Help.class));
             }
         });
-
+        //Opens the achievements/challenges
         imageView = (ImageView) findViewById(R.id.challenges);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override

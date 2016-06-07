@@ -12,6 +12,10 @@ import java.util.ArrayList;
 public class Highscores extends Activity {
     private TextView highscores;
 
+    /**
+     * This creates a textfile on the user's sd-card and uses this to store the Highscores.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

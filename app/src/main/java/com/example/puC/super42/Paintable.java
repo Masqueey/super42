@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Medard on 16-May-16.
+ * This lists all functions an object that can be painted should have.
  */
 public interface Paintable {
 
