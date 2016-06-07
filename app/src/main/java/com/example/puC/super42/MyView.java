@@ -18,6 +18,7 @@ public class MyView extends View implements View.OnClickListener{
     public static float canvasWidth = 0;
     public static float canvasHeight = 0;
     private int countdowntime = 0;
+    private String PowerDescription = "Placeholder Desc";
 
     public Bal bal;
 
@@ -32,8 +33,8 @@ public class MyView extends View implements View.OnClickListener{
     }
 
     // nog even kijken hoe dit werkt
-    private int centerX;
-    private int centerY;
+    private int centerX = 0;
+    private int centerY = 0;
 
     @Override
     protected void onSizeChanged(int w, int h, int oldW, int oldH) {
@@ -77,6 +78,7 @@ public class MyView extends View implements View.OnClickListener{
         c.drawText("Score: " + MainActivity.regularGame.getPoints() , 0, 70, paint);
         c.drawText("Nr of 42s: " + MainActivity.regularGame.getnrOfFortyTwos() , 320, 70, paint);
         c.drawText("Power Time:" + countdowntime,0,140,paint);
+        c.drawText(PowerDescription,320, 140,paint);
     }
 
 
@@ -90,6 +92,7 @@ public class MyView extends View implements View.OnClickListener{
     public void updateTime(int countdowntime){
         this.countdowntime = countdowntime;
     }
+    public void updatePowerDescription (String Desc){PowerDescription = Desc; }
 
     @Override
     public void onClick(View v) {

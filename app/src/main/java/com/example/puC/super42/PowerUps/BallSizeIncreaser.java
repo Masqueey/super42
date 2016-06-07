@@ -1,6 +1,7 @@
 package com.example.puC.super42.PowerUps;
 
 import android.util.Log;
+import android.util.StringBuilderPrinter;
 
 import com.example.puC.super42.MainActivity;
 
@@ -9,10 +10,11 @@ import com.example.puC.super42.MainActivity;
  */
 public class BallSizeIncreaser extends Power
 {
-
+        private String Description = "Big Balls";
         private int difficulty;
         private int duration;
         private PowerKindOf powerKindOf;
+        private double previousBalSizeFactor;
 
         public BallSizeIncreaser(MainActivity act){
             super(act);
@@ -26,7 +28,12 @@ public class BallSizeIncreaser extends Power
             return powerKindOf;
         }
 
-        public int getDuration(){
+    @Override
+    public String getDescription() {
+        return Description;
+    }
+
+    public int getDuration(){
             return duration;
         }
 
@@ -36,12 +43,20 @@ public class BallSizeIncreaser extends Power
 
         @Override
         public void changeGame() {
-            act.setBalSizeFactor(act.balSizeFactor*1.025);
-            Log.d("Increase size", "The ballSizeFactor has been increased to: " + act.balSizeFactor);
+            previousBalSizeFactor = act.getBalSizeFactor();
+            act.setBalSizeFactor(act.getBalSizeFactor()*1.10);
+            Log.d("Increase size", "The ballSizeFactor has been increased to: " + act.getBalSizeFactor());
             return;
         }
 
-        @Override
+        public void revertChangeGame() {
+            act.setBalSizeFactor(previousBalSizeFactor);
+            Log.d("revert Increase size", "The ballSizeFactor has been set to: " + act.getBalSizeFactor());
+            return;
+        }
+
+
+    @Override
         public void notifyPlayer() {
 
         }
