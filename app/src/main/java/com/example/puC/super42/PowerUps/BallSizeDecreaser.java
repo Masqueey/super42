@@ -39,6 +39,9 @@ public class BallSizeDecreaser extends Power {
         return;
     }
 
+    /**
+     * Verkleint de grootte van alle ballen en verkleint de groei bij merges.
+     */
     @Override
     public void changeGame() {
         previousBalSizeFactor = act.getBalSizeFactor();
