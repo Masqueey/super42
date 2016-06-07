@@ -42,9 +42,6 @@ public class MainActivity extends AppCompatActivity {
     private static Date fortyOnesTime;
     private static ReadWrite rw;
 
-    //public void MainActivity() {    }
-
-    //
     public void onBackPressed(){
         if(regularGame.getAlive() == true){
             regularGame.setDead(context);
