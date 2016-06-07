@@ -7,7 +7,9 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-
+/**
+ * Dit is het object van de Bal die alle eigenschappen van de ballen bevat.
+ */
 public class Bal implements Paintable {
     public static final float initialRadius = 50;
     private float speed = 20;
@@ -20,6 +22,17 @@ public class Bal implements Paintable {
     private int size, val;
     private float pathLength = 0;
 
+    /**
+     * Hierin worden locatie, richting, grootte en waarde meegegeven.
+     * Het verschil tussen radius en size is dat radius beslist wat de straal van de Bal is en size het aantal merges dat met deze
+     * Bal gedaan is meegeeft.
+     * @param centerX
+     * @param centerY
+     * @param direction
+     * @param radius
+     * @param val
+     * @param size
+     */
     public Bal(int centerX, float centerY, float direction, float radius, int val, int size) {
         sizeAdjustment = (float)(size > 30 ? 2.56 : (float)(( Math.pow( (double)size + 50, 2) / 2500)));
         paintbal = new Paint();
@@ -47,6 +60,10 @@ public class Bal implements Paintable {
 
     //synchronise
 
+    /**
+     * This function draws the path for every Bal, but only if it has one. Then it draws all the Bals themselves.
+     * @param canvas
+     */
     public void paint(Canvas canvas) {
         //To draw the set path for the current ball.
         if(!path.isEmpty()) {
@@ -111,7 +128,7 @@ public class Bal implements Paintable {
         centerY += Math.sin(direction) * speed;
 
 
-        // bounce on edges.
+        // Bounces on the edges. Hoek van inval is hierbij hoek van uitval.
         double pi = Math.PI;
         if (centerX >= w - radius) {
             direction = direction < pi ? pi - direction : 2 * pi - direction + pi;
@@ -135,6 +152,11 @@ public class Bal implements Paintable {
 
     }
 
+    /**
+     * Checks whether an object equals this Bal.
+     * @param o
+     * @return boolean
+     */
     public boolean equals(Object o) {
         if (o instanceof Bal) {
             Bal other = (Bal) o;
@@ -145,6 +167,14 @@ public class Bal implements Paintable {
             return false;
     }
 
+    /**
+     * This function converts points to radians.
+     * @param targetY
+     * @param sourceY
+     * @param targetX
+     * @param sourceX
+     * @return
+     */
     private double PointsToRadians(float targetY,float  sourceY,float targetX, float sourceX){
         double angle =   Math.toDegrees(Math.atan2(targetY - sourceY, targetX - sourceX));
         if(angle < 0)
@@ -154,6 +184,12 @@ public class Bal implements Paintable {
         return  Math.toRadians(angle);
     }
 
+    /**
+     * This function is used to check whether a drawn path will cause the Bal to exceed the screen's boundaries
+     * and it then prevents that from happening.
+     * @param coord
+     * @return
+     */
     public float[] checkCoord(float[] coord) {
         float w = MyView.canvasWidth;
         float h = MyView.canvasHeight;
@@ -172,6 +208,8 @@ public class Bal implements Paintable {
         return new float[]{x, y};
     }
 
+
+    //Following here are the short functions used by this object.
     /**
      *
      * @param maxValue
@@ -209,6 +247,10 @@ public class Bal implements Paintable {
         return new float[]{this.centerX, this.centerY};
     }
 
+    /**
+     * The path for this Bal is added or extended according to the given coordinates.
+     * @param coord
+     */
     public void addPath(float[] coord) {
         if (coord.length != 2 || pathLength > 720.0 * 2 * ratio)
             return;
@@ -228,7 +270,7 @@ public class Bal implements Paintable {
 
         path.add(new float[]{coord[0], coord[1]});
     }
-
+    //Short functions to return certain properties of the Bal-object
     public void setIsSelected(boolean b) {
         isSelected = b;
     }
