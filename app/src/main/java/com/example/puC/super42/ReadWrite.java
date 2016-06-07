@@ -7,11 +7,13 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -89,7 +91,7 @@ public class ReadWrite {
         //Log.d("readHighscores", "res=" + res + " sorted=" + bubblesortScore(res));
         res = bubblesortScore(res);
         for (int i=0; i< res.size(); i++) {
-            res.set(i, (i+1) + ". " + res.get(i));
+            res.set(i, (i+1) + (i < 9 ? ".   " : ". ") + res.get(i));
         }
         return res;
     }
@@ -216,4 +218,17 @@ public class ReadWrite {
             is.close();
         }
     }
+
+    public static void resetChallenges()  {
+        File dir  = new File(c.getApplicationInfo().dataDir);
+        File file = new File(dir, "challenges.txt");
+        try {
+            PrintWriter writer = new PrintWriter(file);
+            writer.print("");
+            writer.close();
+        }catch (IOException ie) {
+            ie.printStackTrace();
+        }
+
+}
 }

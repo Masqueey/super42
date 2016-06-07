@@ -1,6 +1,8 @@
 package com.example.puC.super42;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -11,7 +13,10 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -49,11 +54,12 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
-
     private CountDownTimer timer;
-    private String PowerDescription;
+    // Challenges
     public static boolean reached42;
     private Power currentpower;
+    public static ArrayList<String> challengesCompleted = new ArrayList<>();
+
     //powervariables:
     public static double balSizeFactor = 1;
     public static double MaxpathlengtFactor = 1; //Used in class bal at public void addPath(float[] coord)
@@ -156,6 +162,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         setContentView(myview);
+        // for resetting challenges
+        //rw.resetChallenges();
+
+        // for inserting random highscores
+        //for (int i=0; i<20; i++)
+        //    rw.saveScore(Integer.toString(r.nextInt(1000)));
     }
 
     private Power randomPowerupCreator(int i){
@@ -323,10 +335,10 @@ public class MainActivity extends AppCompatActivity {
                 for (int j = 0; j < size; j++) {
                     if (myview.paintableObjects.get(j) instanceof Bal) {
                         Bal b = (Bal) myview.paintableObjects.get(j);
-                        if (Math.abs(b.getCenterX() - x) < b.getRadius() + Bal.initialRadius && Math.abs(b.getCenterY() - y) < b.getRadius() + Bal.initialRadius) {
+                        if (Math.abs(b.getCenterX() - x) < b.getRadius() + Bal.initialRadius + 100 && Math.abs(b.getCenterY() - y) < b.getRadius() + Bal.initialRadius + 100) {
                             j = Integer.MAX_VALUE - 42;
                         }
-                        if (Math.abs(b.getCenterX() - x) > b.getRadius() + Bal.initialRadius && Math.abs(b.getCenterY() - y) > b.getRadius() + Bal.initialRadius && j == (size - 1)) {
+                        if (Math.abs(b.getCenterX() - x) > b.getRadius() + Bal.initialRadius + 100 && Math.abs(b.getCenterY() - y) > b.getRadius() + Bal.initialRadius + 100 && j == (size - 1)) {
                             createAndAddBall(x, y, (float) r.nextInt(180), 70, r.nextInt(10) + 1, 1);
                             return;
                         }
@@ -339,8 +351,8 @@ public class MainActivity extends AppCompatActivity {
                 else{               y = (int)screenHeight -1; }
             }
             // if there are no objects spawn a object
-        } else if (size < 3) {
-            createAndAddBall(x, y, (float) r.nextInt(180), 70, r.nextInt(10) + 1, 1);
+        } else if (size < 3 && r.nextInt(20) == 10) {
+            createAndAddBall(r.nextInt(myview.getWidth()), r.nextInt(myview.getHeight()), (float) r.nextInt(180), 70, r.nextInt(10) + 1, 1);
         }
     }
 
@@ -421,23 +433,28 @@ public class MainActivity extends AppCompatActivity {
 
 
                 if (fortyOnes == 2 && !containsSubstring(challangesCompleted, "Two 42's in a game")) {
-                    rw.saveChallange("Two 42's in a game!");
+                    rw.saveChallange("Two 42's in a game");
+                    challengesCompleted.add("Two 42's in a game");
                 }
                 if (fortyOnes == 3 && !containsSubstring(challangesCompleted, "Three 42's in a game")) {
-                    rw.saveChallange("Three 42's in a game!");
+                    rw.saveChallange("Three 42's in a game");
+                    challengesCompleted.add("Three 42's in a game");
                 }
                 if (null == fortyOnesTime) {
                     fortyOnesTime = new Date(System.currentTimeMillis());
                 }
                 if (timeDiffSec > 0) {
-                    if (timeDiffSec > 15 && !containsSubstring(challangesCompleted, "15 seconds with one 41!")) {
-                        rw.saveChallange("15 seconds with one 41!");
+                    if (timeDiffSec >= 15 && !containsSubstring(challangesCompleted, "15 seconds with one 41")) {
+                        rw.saveChallange("15 seconds with one 41");
+                        challengesCompleted.add("15 seconds with one 41");
                     }
-                    if (timeDiffSec > 30 && !containsSubstring(challangesCompleted, "30 seconds with one 41!")) {
-                        rw.saveChallange("30 seconds with one 41!");
+                    if (timeDiffSec >= 30 && !containsSubstring(challangesCompleted, "30 seconds with one 41")) {
+                        rw.saveChallange("30 seconds with one 41");
+                        challengesCompleted.add("30 seconds with one 41");
                     }
-                    if (timeDiffSec > 60 && !containsSubstring(challangesCompleted, "60 seconds with one 41!")) {
-                        rw.saveChallange("60 seconds with one 41!");
+                    if (timeDiffSec >= 60 && !containsSubstring(challangesCompleted, "60 seconds with one 41")) {
+                        rw.saveChallange("60 seconds with one 41");
+                        challengesCompleted.add("60 seconds with one 41");
                     }
                 }
             }

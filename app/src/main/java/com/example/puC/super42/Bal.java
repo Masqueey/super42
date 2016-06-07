@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class Bal implements Paintable {
     public static final float initialRadius = 50;
-    private float speed = 20;
+    private float speed = 10;
     private Paint painttext, paintbal, paintline;
     private float centerX, centerY, radius, sizeAdjustment;
     private double direction;

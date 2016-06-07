@@ -4,10 +4,13 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.Html;
+import android.util.Log;
 import android.widget.TextView;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Highscores extends Activity {
     private TextView highscores;
@@ -29,8 +32,12 @@ public class Highscores extends Activity {
 
         ReadWrite rw = new ReadWrite(Highscores.this);
         ArrayList<String> scores= rw.readHighscores();
+        Pattern p = Pattern.compile("\\d+\\s");
         for (String s : scores) {
-            highscores.append(s + "\n");
+            Matcher m = p.matcher(s);
+            m.find();
+            String s2 = s.replaceFirst(m.group(0), m.group(0).replace(" ", "\t\t\t\t\t\t"));
+            highscores.append(s2 + "\n");
         }
     }
 }
