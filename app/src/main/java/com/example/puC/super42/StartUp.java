@@ -12,14 +12,14 @@ public class StartUp extends AppCompatActivity {
 /**
  * @param myview : the view of the avtivity
  */
-    private MyView myview;
+    private GameView myview;
     private static ImageButton iB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        myview = new MyView(this);
+        myview = new GameView(this);
         // Hide the Title Bar
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 

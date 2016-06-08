@@ -8,7 +8,7 @@ import android.util.Log;
 import java.util.ArrayList;
 
 
-public class Bal implements Paintable {
+public class Bal implements GameObject {
     public static final float initialRadius = 50;
     private float speed;
     private Paint painttext, paintbal, paintline;
@@ -160,8 +160,8 @@ public class Bal implements Paintable {
     }
 
     public float[] checkCoord(float[] coord) {
-        float w = MyView.canvasWidth;
-        float h = MyView.canvasHeight;
+        float w = GameView.canvasWidth;
+        float h = GameView.canvasHeight;
         float x = coord[0];
         float y = coord[1];
 

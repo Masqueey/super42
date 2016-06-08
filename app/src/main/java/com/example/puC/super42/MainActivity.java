@@ -1,23 +1,13 @@
 package com.example.puC.super42;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Environment;
-import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.TextView;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import com.example.puC.super42.PowerUps.BallSizeDecreaser;
@@ -37,13 +27,12 @@ public class MainActivity extends AppCompatActivity {
      * @param balSelected : the Bal that is currently selected and used to make a path for
      */
 
-    public static MyView myview;
+    public static GameView myview;
     public static Random r = new Random();
     public static float screenWidth, screenHeight;
     public static RegularGame regularGame;
     public static MediaPlayer mp, mp2;
     private static Context context;
-    //private final String highscorePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/highscores.txt";
     private Bal balSelected;
     private static float GlobalBalSpeed = 18;
 
@@ -94,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         challengesCompleted.clear();
         super.onCreate(savedInstanceState);
         this.regularGame = new RegularGame();
-        myview = new MyView(this);
+        myview = new GameView(this);
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         screenHeight = metrics.heightPixels;
@@ -219,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
      * @return The bal at the touch coordinates otherwise null
      */
     public static Bal balAtCoord(MotionEvent event) {
-        for (Paintable p : myview.paintableObjects) {
+        for (GameObject p : myview.gameObjectObjects) {
             if (p instanceof Bal && Math.abs(p.getCoord()[0] - event.getX()) < p.getRadius() + 10 && Math.abs(p.getCoord()[1] - event.getY()) < p.getRadius() + 10) {
                 return (Bal) p;
             }
@@ -233,21 +222,21 @@ public class MainActivity extends AppCompatActivity {
     public static void detectCollisions() {
 
 
-        for (int i = 0; i < myview.paintableObjects.size(); i++) {
-            if (!(myview.paintableObjects.get(i) instanceof Bal))
+        for (int i = 0; i < myview.gameObjectObjects.size(); i++) {
+            if (!(myview.gameObjectObjects.get(i) instanceof Bal))
                 continue;
-            Bal huidigeBal = (Bal) myview.paintableObjects.get(i);
+            Bal huidigeBal = (Bal) myview.gameObjectObjects.get(i);
             // Checks for collision with all other objects
-            for (int j = 0; j < myview.paintableObjects.size(); j++) {
-                if (!(myview.paintableObjects.get(j) instanceof Bal))
+            for (int j = 0; j < myview.gameObjectObjects.size(); j++) {
+                if (!(myview.gameObjectObjects.get(j) instanceof Bal))
                     continue;
-                Bal otherBal = (Bal) myview.paintableObjects.get(j);
+                Bal otherBal = (Bal) myview.gameObjectObjects.get(j);
                 // If there is a collision delete old object and create new merged one
                 if ((!huidigeBal.equals(otherBal)) && (Math.sqrt(Math.pow(huidigeBal.getCenterX() - otherBal.getCenterX(), 2) + Math.pow(huidigeBal.getCenterY() - otherBal.getCenterY(), 2)) < huidigeBal.getRadius() + otherBal.getRadius() - 30)) {
                     // Deletes old Bal's
                     if (regularGame.checkForMerge(huidigeBal, otherBal)) {
-                        myview.paintableObjects.remove(huidigeBal);
-                        myview.paintableObjects.remove(otherBal);
+                        myview.gameObjectObjects.remove(huidigeBal);
+                        myview.gameObjectObjects.remove(otherBal);
                     }
 
                     //Calculate new direction:
@@ -294,7 +283,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private static Bal createBalOnCanvas(int centerX, float centerY, float direction, float radius, int val, int size) {
         Bal newBal = new Bal(centerX, centerY, direction, radius, val, size);
-        myview.paintableObjects.add(newBal);
+        myview.gameObjectObjects.add(newBal);
         return newBal;
     }
 
@@ -317,7 +306,7 @@ public class MainActivity extends AppCompatActivity {
                 bal_1.getSize() + bal_2.getSize()
         );
         if (bal_1.getVal() + bal_2.getVal() != 42) {
-            myview.paintableObjects.add(newBal);
+            myview.gameObjectObjects.add(newBal);
             return newBal;
         }
         return null;
@@ -345,7 +334,7 @@ public class MainActivity extends AppCompatActivity {
      * Method to spawn random Bal's
      */
     public static void spawn() {
-        int size = myview.paintableObjects.size();
+        int size = myview.gameObjectObjects.size();
         // Checks how many objects there are in the view and also a random check so object won't spawn too fast
         // Random x,y coordinates
         int x = r.nextInt((int)screenWidth);
@@ -355,8 +344,8 @@ public class MainActivity extends AppCompatActivity {
             // Try 10 times if coordinates are not to close to all other objects
             for (int i = 0; i < 10; i++) {
                 for (int j = 0; j < size; j++) {
-                    if (myview.paintableObjects.get(j) instanceof Bal) {
-                        Bal b = (Bal) myview.paintableObjects.get(j);
+                    if (myview.gameObjectObjects.get(j) instanceof Bal) {
+                        Bal b = (Bal) myview.gameObjectObjects.get(j);
                         float margin = b.getScreenRatio() * 200;
                         //("spawn", "margin=" + margin);
                         if (Math.abs(b.getCenterX() - x) < b.getRadius() + Bal.initialRadius + margin && Math.abs(b.getCenterY() - y) < b.getRadius() + Bal.initialRadius + margin) {
@@ -378,7 +367,7 @@ public class MainActivity extends AppCompatActivity {
                     (y + r.nextInt((int)screenHeight / 2)) % (int)screenHeight,
                     (float) r.nextInt(180), 70, r.nextInt(10) + 1, 1);
         }else if (size == 1 && r.nextInt(35) == 15) {
-            Bal b = (Bal) myview.paintableObjects.get(0);
+            Bal b = (Bal) myview.gameObjectObjects.get(0);
             createAndAddBall(
                     ((int)b.getCenterX() + r.nextInt((int)screenWidth / 2)) % (int)screenWidth,
                     ((int)b.getCenterY() + r.nextInt((int)screenHeight / 2)) % (int)screenHeight,
@@ -411,16 +400,6 @@ public class MainActivity extends AppCompatActivity {
             mp.start();
     }
 
-
-    public ArrayList<Bal> getBals() {
-        ArrayList<Bal> res = new ArrayList<>();
-        for (Paintable p : myview.paintableObjects) {
-            if (p instanceof Bal && null != p)
-                res.add((Bal)p);
-        }
-        return res;
-    }
-
     public static boolean containsSubstring(ArrayList<String> ar, String substr) {
         for (String s : ar) {
             if (s.contains(substr)) {
@@ -441,11 +420,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     public static void procesChallenges() {
 
         ArrayList<Bal> b = new ArrayList<>();
-        for (Paintable p : myview.paintableObjects) {
+        for (GameObject p : myview.gameObjectObjects) {
             if (p instanceof Bal && null != p)
                 b.add((Bal) p);
         }
@@ -458,7 +436,6 @@ public class MainActivity extends AppCompatActivity {
                 fortyOnes++;
                 Date d = new Date(System.currentTimeMillis());
                 long timeDiffSec = dateDiffSec(fortyOnesTime, d);
-                //timeDiffSec = timeDiffSec *4;
                 //Log.d("procesChallenges", "timeDiffSec=" + timeDiffSec);
                 //Log.d("procesChallenges", "fortyOnes=" + fortyOnes);
 

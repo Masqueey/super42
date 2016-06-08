@@ -26,7 +26,6 @@ public class RegularGame {
         alive = true;
     }
 
-
     public void addBall(Bal ballToAdd){
         balls.add(ballToAdd);
     }
@@ -42,7 +41,7 @@ public class RegularGame {
     public int getnrOfFortyTwos(){
         return nrOfFortyTwos;
     }
-    //Setter
+
     public void addAFortyTwo(){
         MainActivity.reached42 = true;
         nrOfFortyTwos++;
@@ -108,8 +107,8 @@ public class RegularGame {
 
     public void setDead(Context c){
         alive = false;
-        Log.d("setDead", "u died alive=" + alive);
-        Log.d("openDieActivity", "started");
+        //Log.d("setDead", "alive=" + alive);
+        //Log.d("openDieActivity", "started");
         ReadWrite s = new ReadWrite(c);
         s.saveScore(Integer.toString(points));
         Intent intent = new Intent(c, GameOver.class);

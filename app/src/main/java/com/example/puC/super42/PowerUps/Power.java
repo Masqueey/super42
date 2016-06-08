@@ -9,7 +9,7 @@ import com.example.puC.super42.MainActivity;
 /*
 Dit levert de basis-eisen waar een powerup aan moet voldoen.
  */
-public abstract class Power implements GameChanger {
+public abstract class Power {
 
     public int difficulty;
     public int duration;

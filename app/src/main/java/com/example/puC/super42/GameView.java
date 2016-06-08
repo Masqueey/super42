@@ -4,8 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -15,8 +13,8 @@ import java.util.List;
 /**
  * Created by Medard on 16-May-16.
  */
-public class MyView extends View implements View.OnClickListener{
-    List<Paintable> paintableObjects = new ArrayList<Paintable>();
+public class GameView extends View implements View.OnClickListener{
+    List<GameObject> gameObjectObjects = new ArrayList<GameObject>();
     public static float canvasWidth = 0;
     public static float canvasHeight = 0;
     private int countdowntime = 0;
@@ -26,28 +24,13 @@ public class MyView extends View implements View.OnClickListener{
     private Paint paintChallenges;
     private int interval = 0;
 
-    //https://stackoverflow.com/questions/12111265/how-to-create-an-object-that-can-be-drawn-on-the-method-ondraw
 
-    public MyView(Context context) {
+    public GameView(Context context) {
         super(context);
         paintChallenges = new Paint();
         paintChallenges.setColor(Color.RED);
         paintChallenges.setTextSize(50);
     }
-
-    public void AddPaintable(Paintable paintable){
-        paintableObjects.add(paintable);
-    }
-
-    // nog even kijken hoe dit werkt
-    private int centerX = 0;
-    private int centerY = 0;
-
-    @Override    protected void onSizeChanged(int w, int h, int oldW, int oldH) {
-        centerX = w / 2;
-        centerY = h / 2;
-    }
-
 
 
     protected void onDraw(Canvas c) {
@@ -56,10 +39,10 @@ public class MyView extends View implements View.OnClickListener{
             canvasWidth = c.getWidth();
         }
 
-        for (int i = 0; i < paintableObjects.size(); i++) {
-            paintableObjects.get(i).paint(c);
+        for (int i = 0; i < gameObjectObjects.size(); i++) {
+            gameObjectObjects.get(i).paint(c);
             if(MainActivity.regularGame.getAlive()) {
-                paintableObjects.get(i).MovetoNextPos(c);
+                gameObjectObjects.get(i).MovetoNextPos(c);
             }
         }
         if(MainActivity.regularGame.getAlive()) {

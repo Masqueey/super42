@@ -41,7 +41,7 @@ public class ReadWrite {
         dir.mkdir();
         File myFile = new File(dir, "highscores.txt");
         try {
-            Log.d("saveScore", "s=" + score + " trying.. sd=" + dir.toString());
+            //Log.d("saveScore", "s=" + score + " trying.. sd=" + dir.toString());
             if (!myFile.exists()) {
                 try {
                     myFile.createNewFile();
@@ -57,7 +57,7 @@ public class ReadWrite {
             }
             writer.close();
             out.close();
-            Log.d("saveScore", "succes");
+            //Log.d("saveScore", "succes");
         } catch (Exception e) {
             Log.d("saveScore", "Exception " + e.toString());
         }
@@ -78,7 +78,7 @@ public class ReadWrite {
             BufferedReader br = new BufferedReader(new FileReader(file));
             String s;
             int i = countLines("highscores.txt");
-            Log.d("readHighscores", "i=" + i);
+            //Log.d("readHighscores", "i=" + i);
             while ((s = br.readLine()) != null) {
                 if (Pattern.matches("\\A\\d+\\s\\d{2}-\\d{2}-\\d{4}\\s\\d{2}:\\d{2}:\\d{2}\\Z", s)) {
                     res.add(s);
@@ -86,7 +86,7 @@ public class ReadWrite {
             }
             br.close();
         } catch (IOException e) {
-            //Log.d("readHighscores", e.toString());
+            Log.d("readHighscores", e.toString());
         }
         //Log.d("readHighscores", "res=" + res + " sorted=" + bubblesortScore(res));
         res = bubblesortScore(res);
@@ -117,7 +117,7 @@ public class ReadWrite {
                 try {
                     myFile.createNewFile();
                 } catch (Exception e) {
-                    //Log.d("saveScore", "myFile.createNewFile() failed " + e.toString());
+                    Log.d("saveScore", "myFile.createNewFile() failed " + e.toString());
                 }
             }
             FileOutputStream out = new FileOutputStream(myFile, true);
@@ -129,7 +129,7 @@ public class ReadWrite {
             }
             writer.close();
             out.close();
-            Log.d("saveChallange", "succes");
+            //Log.d("saveChallange", "succes");
         } catch (Exception e) {
             Log.d("saveChallange", "Exception " + e.toString());
         }
