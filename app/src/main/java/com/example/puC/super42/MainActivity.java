@@ -359,7 +359,7 @@ public class MainActivity extends AppCompatActivity {
             }
             // if there are no objects spawn a object
         } else if (size < 3 && r.nextInt(20) == 10) {
-            createAndAddBall(r.nextInt(myview.getWidth()), r.nextInt(myview.getHeight()), (float) r.nextInt(180), 70, r.nextInt(10) + 1, 1);
+            createAndAddBall(x, y, (float) r.nextInt(180), 70, r.nextInt(10) + 1, 1);
         }
     }
 
