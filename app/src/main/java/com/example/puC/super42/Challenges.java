@@ -21,6 +21,7 @@ public class Challenges extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_challenges);
 
+        // Shows all completed challenges
         challengesCompleted = (TextView) findViewById(R.id.challengesCompleted);
         ReadWrite rw = new ReadWrite(Challenges.this);
         ArrayList<String> challengesDone = rw.readChallenges();
@@ -50,6 +51,7 @@ public class Challenges extends Activity{
                 "60 seconds with one 41"
         ));
 
+        // Shows all not completer challenges
         for (String s : allChallenges) {
             if (!MainActivity.containsSubstring(challengesDone, s))
                 challengesNotCompleted.append(s + "\n");

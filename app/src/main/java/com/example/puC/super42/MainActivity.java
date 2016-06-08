@@ -351,7 +351,7 @@ public class MainActivity extends AppCompatActivity {
         int x = r.nextInt((int)screenWidth);
         int y = r.nextInt((int)screenHeight);
 
-        if (size > 1 && size < 7 && r.nextInt(Math.max(50, size * 20)) == 42) {
+        if (size > 1 && size < 7 && r.nextInt(Math.max(50, size * 15)) == 42) {
             // Try 10 times if coordinates are not to close to all other objects
             for (int i = 0; i < 10; i++) {
                 for (int j = 0; j < size; j++) {
@@ -371,13 +371,13 @@ public class MainActivity extends AppCompatActivity {
                 x = r.nextInt((int)screenWidth);
                 y = r.nextInt((int)screenHeight);
             }
-        }else if (0 == size && r.nextInt(50) == 42){
+        }else if (0 == size && r.nextInt(20) == 15){
             createAndAddBall(x, y, (float) r.nextInt(180), 70, r.nextInt(10) + 1, 1);
             createAndAddBall(
                     (x + r.nextInt((int)screenWidth / 2)) % (int)screenWidth,
                     (y + r.nextInt((int)screenHeight / 2)) % (int)screenHeight,
                     (float) r.nextInt(180), 70, r.nextInt(10) + 1, 1);
-        }else if (size == 1 && r.nextInt(50) == 42) {
+        }else if (size == 1 && r.nextInt(35) == 15) {
             Bal b = (Bal) myview.paintableObjects.get(0);
             createAndAddBall(
                     ((int)b.getCenterX() + r.nextInt((int)screenWidth / 2)) % (int)screenWidth,
@@ -471,7 +471,7 @@ public class MainActivity extends AppCompatActivity {
                 if (fortyOnes == 3 && !containsSubstring(challangesCompleted, "Three 41's on the field")) {
                     rw.saveChallange("Three 41's on the field");
                 }
-                if (fortyOnes == 3 && !containsSubstring(challangesCompleted, "Five 41's on the field")) {
+                if (fortyOnes == 5 && !containsSubstring(challangesCompleted, "Five 41's on the field")) {
                     rw.saveChallange("Five 41's on the field");
                 }
                 if (null == fortyOnesTime) {
@@ -490,8 +490,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             // Forty two's count
-            if (1 == fortyTwos && !containsSubstring(challangesCompleted, "One 42's in a game")) {
-                rw.saveChallange("One 42's in a game");
+            if (1 == fortyTwos && !containsSubstring(challangesCompleted, "One 42 in a game")) {
+                rw.saveChallange("One 42 in a game");
             }
             if (2 == fortyTwos && !containsSubstring(challangesCompleted, "Two 42's in a game")) {
                 rw.saveChallange("Two 42's in a game");
