@@ -10,49 +10,58 @@
     android:background="@color/black"
     tools:context="com.example.puC.super42.Challenges">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="22dp"
-        android:textColor="@color/white"
-        android:text="\nChallenges completed\n"
-        android:layout_centerHorizontal="true"
-        android:gravity="center_horizontal|center"
-        android:id="@+id/titleChallengesCompleted"/>
+    <ScrollView android:id="@+id/ScrlView" android:layout_width="fill_parent" android:layout_height="fill_parent" >
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:orientation="vertical"
+            android:id="@+id/linearLayout1"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_vertical|center_horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="22dp"
+                android:textColor="@color/white"
+                android:text="\nChallenges completed\n"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal|center"
+                android:id="@+id/titleChallengesCompleted"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:gravity="left"
-        android:textColor="@color/white"
-        android:layout_marginTop="30dp"
-        android:textSize="18dp"
-        android:id="@+id/challengesCompleted"
-        android:layout_below="@+id/titleChallengesCompleted"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="left"
+                android:textColor="@color/white"
+                android:layout_marginTop="30dp"
+                android:textSize="18dp"
+                android:id="@+id/challengesCompleted"
+                android:layout_below="@+id/titleChallengesCompleted"/>
 
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="22dp"
-        android:textColor="@color/white"
-        android:text="\nChallenges to do\n"
-        android:layout_centerHorizontal="true"
-        android:gravity="center_horizontal|center"
-        android:id="@+id/titleChallengesNotCompleted"
-        android:layout_below="@+id/challengesCompleted"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="22dp"
+                android:textColor="@color/white"
+                android:text="\nChallenges to do\n"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal|center"
+                android:id="@+id/titleChallengesNotCompleted"
+                android:layout_below="@+id/challengesCompleted"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:gravity="left"
-        android:textColor="@color/white"
-        android:layout_marginTop="30dp"
-        android:textSize="18dp"
-        android:id="@+id/challengesNotCompleted"
-        android:layout_below="@+id/titleChallengesNotCompleted"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="left"
+                android:textColor="@color/white"
+                android:layout_marginTop="30dp"
+                android:textSize="18dp"
+                android:id="@+id/challengesNotCompleted"
+                android:layout_below="@+id/titleChallengesNotCompleted"/>
+        </LinearLayout>
 
+    </ScrollView>
 
 </RelativeLayout>

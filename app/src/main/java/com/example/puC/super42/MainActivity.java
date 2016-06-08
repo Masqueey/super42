@@ -59,6 +59,25 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
+
+    public void onDestroy(){
+        if (timer != null){
+            timer.cancel();
+        }
+        ResetGamestate();
+        super.onDestroy();
+    }
+
+    public void ResetGamestate(){
+        balSizeFactor = 1;
+        MaxpathlengtFactor = 1;
+        BalSpeedMultiplier = 1;
+        fortyOnes = 0;
+        fortyTwos = 0;
+    }
+
+
+
     private CountDownTimer timer;
     // Challenges
     public static boolean reached42;
@@ -94,8 +113,7 @@ public class MainActivity extends AppCompatActivity {
             public void onTick(long millisUntilFinished) {
                 myview.updateTime((int)millisUntilFinished/1000);
 
-
-                if(regularGame.getAlive() == false){
+                if(regularGame.getAlive() == false && timer != null){
                     timer.cancel();
                 }
 

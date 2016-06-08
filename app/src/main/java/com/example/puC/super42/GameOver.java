@@ -18,7 +18,9 @@ public class GameOver extends AppCompatActivity {
     Button playAgain;
 
     public void onBackPressed(){
-
+        Intent intent = new Intent(GameOver.this, MenuActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+        startActivity(intent);
         super.onBackPressed();
     }
 
@@ -58,7 +60,9 @@ public class GameOver extends AppCompatActivity {
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(GameOver.this, MenuActivity.class));
+                Intent intent = new Intent(GameOver.this, MenuActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+                startActivity(intent);
             }
         });
 
@@ -67,7 +71,9 @@ public class GameOver extends AppCompatActivity {
         playAgain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(GameOver.this, MainActivity.class));
+                Intent intent = new Intent(GameOver.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+                startActivity(intent);
             }
         });
     }

@@ -19,13 +19,16 @@ public class Help extends Activity {
 
         textView = (TextView) findViewById(R.id.helpText);
         textView.append(Html.fromHtml(
-                "Het doel van het spel is om bolletjes te mergen tot de waarde 42. " +
-                "Dit doe je door een bolletje aan te raken en een pad te trekken, het bolletje zal dit pad meteen volgen. " +
-                "De bolletjes zullen random spawnen en voor de bolletjes geldt ook hoek van inval is hoek van uitval. " +
-                "Er zullen naar verloop van tijd ook powerups en powerdowns spawnen. " +
-                "Wees gewaarschuwd! Als je een pad eenmaal getekend hebt kan je dit alleen nog maar " +
-                "weghalen door het balletje te laten mergen met een andere bal. Het is ook niet mogelijk om " +
-                "een pad opnieuw te tekenen, dus bedenk goed hoe je het pad wil hebben!"
+                "<br/>" +
+                " - Het doel van het spel is om bolletjes samen te voegen tot de waarde 42. " + "<br/>" + "<br/>" +
+                " - Door een bolletje aan te raken en te slepen kan je een route maken die het bolletje zal volgen. " + "<br/>" + "<br/>" +
+                " - Deze paden kunnen niet meer aangepast worden, dus wees gewaarschuwd!"  + "<br/>" + "<br/>" +
+                " - Nieuwe bolletjes spawnen langs de rand van het scherm. " + "<br/>" + "<br/>" +
+                " - Boven in het game-scherm staan een timer en een powe.r" + "<br/>" + "<br/>" +
+                " - Als de timer afloopt word er een power geactiveerd. " + "<br/>" + "<br/>" +
+                " - Deze power is positief als je een 42 gemaakt hebt voor de timer aflooptbanders is de power negatief." +  "<br/>" + "<br/>" +
+                " - Het effect van de power staat ook bovenaan het scherm."
+
         ));
     }
 }

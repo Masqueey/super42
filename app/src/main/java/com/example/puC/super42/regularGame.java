@@ -26,24 +26,6 @@ public class RegularGame {
         alive = true;
     }
 
-    //Definition of a collision
-    public boolean collision(){
-        boolean tempCollision = false;
-        for(Bal bal : balls){
-            for (Bal otherbal : balls){
-                if(!bal.equals(otherbal)){
-                    if((Math.sqrt(Math.pow(bal.getCenterX()-otherbal.getCenterX(), 2) + Math.pow(bal.getCenterY()-otherbal.getCenterY(), 2)) < bal.getRadius() + otherbal.getRadius() - 30) ){
-                        return true;
-                    }
-                }
-            }
-        }
-        return tempCollision;
-    }
-    //Getters
-    public int getNrOfBalls(){
-        return balls.size();
-    }
 
     public void addBall(Bal ballToAdd){
         balls.add(ballToAdd);
@@ -79,16 +61,6 @@ public class RegularGame {
         }
         return allAlive;
     }
-
-    /**
-     * if dead, die
-     */
-   public void checkDeadsetDead(){
-        if(!checkAlive()){
-            alive = false;
-        }
-    }
-
 
     /**
      *
