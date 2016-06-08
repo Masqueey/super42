@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        challengesCompleted.clear();
         super.onCreate(savedInstanceState);
         this.regularGame = new RegularGame();
         myview = new MyView(this);
@@ -329,39 +330,41 @@ public class MainActivity extends AppCompatActivity {
         int size = myview.paintableObjects.size();
         // Checks how many objects there are in the view and also a random check so object won't spawn too fast
         // Random x,y coordinates
-        int x;
-        int y;
+        int x = r.nextInt((int)screenWidth);
+        int y = r.nextInt((int)screenHeight);
 
-        //x and y on the edge of the screen
-        if(r.nextBoolean()){x = 1;}
-        else{               x = (int)screenWidth -1; }
-        if(r.nextBoolean()){y = 1;}
-        else{               y = (int)screenHeight -1; }
-
-        if (size > 2 && size < 7 && r.nextInt(size * 20) == 42) {
+        if (size > 1 && size < 7 && r.nextInt(Math.max(50, size * 20)) == 42) {
             // Try 10 times if coordinates are not to close to all other objects
             for (int i = 0; i < 10; i++) {
                 for (int j = 0; j < size; j++) {
                     if (myview.paintableObjects.get(j) instanceof Bal) {
                         Bal b = (Bal) myview.paintableObjects.get(j);
-                        if (Math.abs(b.getCenterX() - x) < b.getRadius() + Bal.initialRadius + 100 && Math.abs(b.getCenterY() - y) < b.getRadius() + Bal.initialRadius + 100) {
+                        float margin = b.getScreenRatio() * 200;
+                        Log.d("spawn", "margin=" + margin);
+                        if (Math.abs(b.getCenterX() - x) < b.getRadius() + Bal.initialRadius + margin && Math.abs(b.getCenterY() - y) < b.getRadius() + Bal.initialRadius + margin) {
                             j = Integer.MAX_VALUE - 42;
                         }
-                        if (Math.abs(b.getCenterX() - x) > b.getRadius() + Bal.initialRadius + 100 && Math.abs(b.getCenterY() - y) > b.getRadius() + Bal.initialRadius + 100 && j == (size - 1)) {
+                        if (Math.abs(b.getCenterX() - x) > b.getRadius() + Bal.initialRadius + margin && Math.abs(b.getCenterY() - y) > b.getRadius() + Bal.initialRadius + margin && j == (size - 1)) {
                             createAndAddBall(x, y, (float) r.nextInt(180), 70, r.nextInt(10) + 1, 1);
                             return;
                         }
                     }
                 }
-                //x and y on the edge of the screen
-                if(r.nextBoolean()){x = 1;}
-                else{               x = (int)screenWidth -1; }
-                if(r.nextBoolean()){y = 1;}
-                else{               y = (int)screenHeight -1; }
+                x = r.nextInt((int)screenWidth);
+                y = r.nextInt((int)screenHeight);
             }
-            // if there are no objects spawn a object
-        } else if (size < 3 && r.nextInt(20) == 10) {
+        }else if (0 == size && r.nextInt(50) == 42){
             createAndAddBall(x, y, (float) r.nextInt(180), 70, r.nextInt(10) + 1, 1);
+            createAndAddBall(
+                    (x + r.nextInt((int)screenWidth / 2)) % (int)screenWidth,
+                    (y + r.nextInt((int)screenHeight / 2)) % (int)screenHeight,
+                    (float) r.nextInt(180), 70, r.nextInt(10) + 1, 1);
+        }else if (size == 1 && r.nextInt(50) == 42) {
+            Bal b = (Bal) myview.paintableObjects.get(0);
+            createAndAddBall(
+                    ((int)b.getCenterX() + r.nextInt((int)screenWidth / 2)) % (int)screenWidth,
+                    ((int)b.getCenterY() + r.nextInt((int)screenHeight / 2)) % (int)screenHeight,
+                    (float) r.nextInt(180), 70, r.nextInt(10) + 1, 1);
         }
     }
 
@@ -443,19 +446,15 @@ public class MainActivity extends AppCompatActivity {
 
                 if (fortyOnes == 1 && !containsSubstring(challangesCompleted, "One 41 on the field")) {
                     rw.saveChallange("One 41 on the field");
-                    challengesCompleted.add("One 41 on the field");
                 }
                 if (fortyOnes == 2 && !containsSubstring(challangesCompleted, "Two 41's on the field")) {
                     rw.saveChallange("Two 41's on the field");
-                    challengesCompleted.add("Two 41's on the field");
                 }
                 if (fortyOnes == 3 && !containsSubstring(challangesCompleted, "Three 41's on the field")) {
                     rw.saveChallange("Three 41's on the field");
-                    challengesCompleted.add("Three 41's ion the field");
                 }
                 if (fortyOnes == 3 && !containsSubstring(challangesCompleted, "Five 41's on the field")) {
                     rw.saveChallange("Five 41's on the field");
-                    challengesCompleted.add("Five 41's ion the field");
                 }
                 if (null == fortyOnesTime) {
                     fortyOnesTime = new Date(System.currentTimeMillis());
@@ -463,38 +462,30 @@ public class MainActivity extends AppCompatActivity {
                 if (timeDiffSec > 0) {
                     if (timeDiffSec >= 15 && !containsSubstring(challangesCompleted, "15 seconds with one 41")) {
                         rw.saveChallange("15 seconds with one 41");
-                        challengesCompleted.add("15 seconds with one 41");
                     }
                     if (timeDiffSec >= 30 && !containsSubstring(challangesCompleted, "30 seconds with one 41")) {
                         rw.saveChallange("30 seconds with one 41");
-                        challengesCompleted.add("30 seconds with one 41");
                     }
                     if (timeDiffSec >= 60 && !containsSubstring(challangesCompleted, "60 seconds with one 41")) {
                         rw.saveChallange("60 seconds with one 41");
-                        challengesCompleted.add("60 seconds with one 41");
                     }
                 }
             }
             // Forty two's count
             if (1 == fortyTwos && !containsSubstring(challangesCompleted, "One 42's in a game")) {
                 rw.saveChallange("One 42's in a game");
-                challengesCompleted.add("One 42's in a game");
             }
             if (2 == fortyTwos && !containsSubstring(challangesCompleted, "Two 42's in a game")) {
                 rw.saveChallange("Two 42's in a game");
-                challengesCompleted.add("Two 42's in a game");
             }
             if (3 == fortyTwos && !containsSubstring(challangesCompleted, "Three 42's in a game")) {
                 rw.saveChallange("Three 42's in a game");
-                challengesCompleted.add("Three 42's in a game");
             }
             if (5 == fortyTwos && !containsSubstring(challangesCompleted, "Five 42's in a game")) {
                 rw.saveChallange("Five 42's in a game");
-                challengesCompleted.add("Five 42's in a game");
             }
             if (10 == fortyTwos && !containsSubstring(challangesCompleted, "Ten 42's in a game")) {
                 rw.saveChallange("Ten 42's in a game");
-                challengesCompleted.add("Ten 42's in a game");
             }
         }
         if (fortyOnesTime != null && fortyOnes == 0) {
