@@ -21,6 +21,7 @@ public class Help extends Activity {
         textView.append(Html.fromHtml(
                 "<br/>" +
                 " - Het doel van het spel is om bolletjes samen te voegen tot de waarde 42. " + "<br/>" + "<br/>" +
+                " - Als een bolletje groter wordt dan 42 is het gameover. " + "<br/>" + "<br/>" +
                 " - Door een bolletje aan te raken en te slepen kan je een route maken die het bolletje zal volgen. " + "<br/>" + "<br/>" +
                 " - Deze paden kunnen niet meer aangepast worden, dus wees gewaarschuwd!"  + "<br/>" + "<br/>" +
                 " - Nieuwe bolletjes spawnen langs de rand van het scherm. " + "<br/>" + "<br/>" +
