@@ -11,15 +11,12 @@ import com.example.puC.super42.MainActivity;
 public class BallSizeIncreaser extends Power
 {
         private String Description = "Big Balls";
-        private int difficulty;
-        private int duration;
         private PowerKindOf powerKindOf;
         private double previousBalSizeFactor;
 
         public BallSizeIncreaser(MainActivity act){
             super(act);
-            // this.difficulty = super.getDifficulty();
-            //  this.duration = super.getDuration();
+
             powerKindOf = PowerKindOf.POWERDOWN;
             return;
         }
@@ -32,14 +29,6 @@ public class BallSizeIncreaser extends Power
     public String getDescription() {
         return Description;
     }
-
-    public int getDuration(){
-            return duration;
-        }
-
-        public void increaseDifficulty(){
-            difficulty++;
-        }
 
         @Override
         public void changeGame() {
@@ -54,17 +43,5 @@ public class BallSizeIncreaser extends Power
             Log.d("revert Increase size", "The ballSizeFactor has been set to: " + act.getBalSizeFactor());
             return;
         }
-
-
-    @Override
-        public void notifyPlayer() {
-
-        }
-
-        @Override
-        public String getName(){
-            return "Default power";
-        }
-
 
 }

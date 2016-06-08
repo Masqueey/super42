@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import com.example.puC.super42.PowerUps.BallSizeDecreaser;
 import com.example.puC.super42.PowerUps.BallSizeIncreaser;
+import com.example.puC.super42.PowerUps.BallSpeedDecreaser;
+import com.example.puC.super42.PowerUps.BallSpeedIncreaser;
 import com.example.puC.super42.PowerUps.PathDecreaser;
 import com.example.puC.super42.PowerUps.PathIncreaser;
 import com.example.puC.super42.PowerUps.Power;
@@ -34,14 +36,16 @@ public class MainActivity extends AppCompatActivity {
      * @param myview : the view of the activity
      * @param balSelected : the Bal that is currently selected and used to make a path for
      */
+
     public static MyView myview;
     public static Random r = new Random();
     public static float screenWidth, screenHeight;
     public static RegularGame regularGame;
     public static MediaPlayer mp, mp2;
     private static Context context;
-    private final String highscorePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/highscores.txt";
+    //private final String highscorePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/highscores.txt";
     private Bal balSelected;
+    private static float GlobalBalSpeed = 18;
 
     private static int fortyOnes = 0;
     private static Date fortyOnesTime;
@@ -63,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
     //powervariables:
     public static double balSizeFactor = 1;
     public static double MaxpathlengtFactor = 1; //Used in class bal at public void addPath(float[] coord)
+    public static float BalSpeedMultiplier = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,17 +176,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private Power randomPowerupCreator(int i){
-        i = i%2;
-        switch(i){
+        i = i%3; // i = i % hoeveelheid_powerups
+        switch(2){
             case 1:  PathIncreaser pathinc = new PathIncreaser(this);               return pathinc;
-            default: BallSizeDecreaser decreaser = new BallSizeDecreaser(this);     return decreaser;
+            case 2:  BallSpeedDecreaser slowball = new BallSpeedDecreaser(this);    return slowball;
+            default: BallSizeDecreaser smallball = new BallSizeDecreaser(this);     return smallball;
         }
     }
     private Power randomPowerdownCreator(int i){
-        i=i%2;
-        switch(i){
+        i=i%3; // i = i % hoeveelheid_powerups
+        switch(2){
             case 1:  PathDecreaser pathdec = new PathDecreaser(this);               return pathdec;
-            default: BallSizeIncreaser increaser = new BallSizeIncreaser(this);;    return increaser;
+            case 2:  BallSpeedIncreaser speedball = new BallSpeedIncreaser(this);   return speedball;
+            default: BallSizeIncreaser largeball = new BallSizeIncreaser(this);;    return largeball;
         }
     }
 
@@ -244,8 +251,8 @@ public class MainActivity extends AppCompatActivity {
                     else {
                         regularGame.setDead(context);
                     }
-                    //   Log.d("points: ", ""+RegularGame.getPoints());
-                    //   Log.d("alive: ", "" + MainActivity.RegularGame.getAlive());
+                    //  Log.d("points: ", ""+RegularGame.getPoints());
+                    //  Log.d("alive: ", "" + MainActivity.RegularGame.getAlive());
                     //  Log.d("nr of balls in list: ", "" + MainActivity.RegularGame.getNrOfBalls());
                     return;
                 }
@@ -462,6 +469,22 @@ public class MainActivity extends AppCompatActivity {
         if (fortyOnesTime != null && fortyOnes == 0) {
             fortyOnesTime = null;
         }
+    }
+
+    public static float getBallspeed(){
+        return (GlobalBalSpeed * BalSpeedMultiplier);
+    }
+
+    public static float getBalSpeedMultiplier() {
+        return BalSpeedMultiplier;
+    }
+
+    public static void setBalSpeedMultiplier(float balSpeedMultiplier) {
+        BalSpeedMultiplier = (float)balSpeedMultiplier;
+    }
+
+    public static void setBalSpeedMultiplier(double balSpeedMultiplier) {
+        BalSpeedMultiplier = (float)balSpeedMultiplier;
     }
 
     public void setBalSizeFactor(double i) {

@@ -23,18 +23,6 @@ public abstract class Power implements GameChanger {
         this.duration = 20;
     }
 
-    public int getDifficulty(){
-        return difficulty;
-    }
-
-    public void increaseDifficulty(){
-        difficulty++;
-    }
-
-    public int getDuration(){
-        return duration;
-    }
-
     public abstract PowerKindOf getPowerKindOf();
 
     public abstract String getDescription();
@@ -43,7 +31,5 @@ public abstract class Power implements GameChanger {
 
     public abstract void revertChangeGame();
 
-    public abstract void notifyPlayer();
 
-    public abstract String getName();
 }

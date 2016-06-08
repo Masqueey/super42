@@ -10,15 +10,16 @@ import java.util.ArrayList;
 
 public class Bal implements Paintable {
     public static final float initialRadius = 50;
-    private float speed = 10;
+    private float speed;
     private Paint painttext, paintbal, paintline;
     private float centerX, centerY, radius, sizeAdjustment;
     private double direction;
     private boolean isSelected;
     private ArrayList<float[]> path;
-    private final float screenRatio;
+    private final float screenRatio = MainActivity.screenWidth / 720;;
     private int size, val;
     private float pathLength = 0;
+    float randomspeedmodifier;
 
     public Bal(int centerX, float centerY, float direction, float radius, int val, int size) {
         sizeAdjustment = (float)(size > 30 ? 2.56 : (float)(( Math.pow( (double)size + 50, 2) / 2500)));
@@ -28,12 +29,12 @@ public class Bal implements Paintable {
         painttext = new Paint();
         painttext.setColor(Color.WHITE);
         painttext.setTextAlign(Paint.Align.CENTER);
-        screenRatio = MainActivity.screenWidth / 720;
         this.radius =  screenRatio * initialRadius * sizeAdjustment * (float) MainActivity.balSizeFactor;
         painttext.setTextSize((float) (radius * 0.75));
         paintline = new Paint();
         paintline.setStrokeWidth(12);
         paintline.setColor(paintbal.getColor());
+
 
         this.centerX = centerX;
         this.centerY = centerY;
@@ -42,7 +43,9 @@ public class Bal implements Paintable {
         path = new ArrayList<float[]>();
         this.val = val;
         this.size = size;
-        speed = speed * (float)(MainActivity.r.nextInt(40)/100+0.8) / sizeAdjustment;
+
+        randomspeedmodifier = (float)(MainActivity.r.nextInt(40)/100+0.8);
+        speed = (MainActivity.getBallspeed()* randomspeedmodifier)/sizeAdjustment;
     }
 
     //synchronise
@@ -133,6 +136,8 @@ public class Bal implements Paintable {
         centerX = checked[0];
         centerY = checked[1];
 
+        UpdateSpeed();
+
     }
 
     public boolean equals(Object o) {
@@ -211,11 +216,11 @@ public class Bal implements Paintable {
 
     //boolean true als het path nog veder mag gaan
     public boolean addPath(float[] coord, double MaxpathlengtFactor) {
-        Log.d("MaxpathlengtFactor",""+(720.0 * screenRatio * MaxpathlengtFactor) + "balSizeFactor" + MaxpathlengtFactor );
+        Log.d("MaxpathlengtFactor",""+(300.0 * screenRatio * MaxpathlengtFactor) + "balSizeFactor" + MaxpathlengtFactor );
 
         if (coord.length != 2 )
             return true;
-        else if(pathLength > 720.0 * screenRatio * MaxpathlengtFactor){
+        else if(pathLength > 300.0  * screenRatio * MaxpathlengtFactor){
             return false;
         }
 
@@ -248,6 +253,9 @@ public class Bal implements Paintable {
 
     public int getSize() { return  size; }
 
+    private void UpdateSpeed() {
+        this.speed = (MainActivity.getBallspeed() * randomspeedmodifier)/screenRatio;
+    }
 
     public boolean equals(Bal otherBal){
         return size == otherBal.size && centerX == otherBal.centerX && centerY == otherBal.centerY && val == otherBal.val;
