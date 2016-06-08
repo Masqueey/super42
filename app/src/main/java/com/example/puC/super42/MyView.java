@@ -89,7 +89,7 @@ public class MyView extends View implements View.OnClickListener{
 
         if (MainActivity.challengesCompleted.size() > challengeCounter) {
             Log.d("drawScore", "challenge completed=" + MainActivity.challengesCompleted.get(challengeCounter));
-            c.drawText("Challenge comple!\n" + MainActivity.challengesCompleted.get(challengeCounter), 20, 250, paintChallenges);
+            c.drawText("Challenge complete!\n" + MainActivity.challengesCompleted.get(challengeCounter), 20, 250, paintChallenges);
             challengeCounter++;
             challengeTimer = new Date(System.currentTimeMillis());
         }
@@ -98,7 +98,7 @@ public class MyView extends View implements View.OnClickListener{
         //Log.d("drawScore", "MainActivity.dateDiffSec(challengeTimer, new Date(System.currentTimeMillis()))=" + MainActivity.dateDiffSec(challengeTimer, new Date(System.currentTimeMillis())));
         if (MainActivity.challengesCompleted.size() == challengeCounter && challengeCounter > 0 && MainActivity.dateDiffSec(challengeTimer, new Date(System.currentTimeMillis())) < 5) {
             Log.d("drawScore", "MainActivity.challengesCompleted=" + MainActivity.challengesCompleted);
-            c.drawText(MainActivity.challengesCompleted.get(challengeCounter - 1), 20, 250, paintChallenges);
+            c.drawText("Challenge complete!\n" + MainActivity.challengesCompleted.get(challengeCounter - 1), 20, 250, paintChallenges);
         }
     }
 
