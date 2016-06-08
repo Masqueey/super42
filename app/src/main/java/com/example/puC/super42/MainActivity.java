@@ -340,7 +340,7 @@ public class MainActivity extends AppCompatActivity {
                     if (myview.paintableObjects.get(j) instanceof Bal) {
                         Bal b = (Bal) myview.paintableObjects.get(j);
                         float margin = b.getScreenRatio() * 200;
-                        Log.d("spawn", "margin=" + margin);
+                        //("spawn", "margin=" + margin);
                         if (Math.abs(b.getCenterX() - x) < b.getRadius() + Bal.initialRadius + margin && Math.abs(b.getCenterY() - y) < b.getRadius() + Bal.initialRadius + margin) {
                             j = Integer.MAX_VALUE - 42;
                         }
@@ -442,7 +442,7 @@ public class MainActivity extends AppCompatActivity {
                 long timeDiffSec = dateDiffSec(fortyOnesTime, d);
                 //timeDiffSec = timeDiffSec *4;
                 //Log.d("procesChallenges", "timeDiffSec=" + timeDiffSec);
-                Log.d("procesChallenges", "fortyOnes=" + fortyOnes);
+                //Log.d("procesChallenges", "fortyOnes=" + fortyOnes);
 
                 if (fortyOnes == 1 && !containsSubstring(challangesCompleted, "One 41 on the field")) {
                     rw.saveChallange("One 41 on the field");
