@@ -24,6 +24,7 @@ public class MyView extends View implements View.OnClickListener{
     private int challengeCounter = 0;
     private Date challengeTimer = new Date(System.currentTimeMillis());
     private Paint paintChallenges;
+    private int interval = 0;
 
     //https://stackoverflow.com/questions/12111265/how-to-create-an-object-that-can-be-drawn-on-the-method-ondraw
 
@@ -65,8 +66,12 @@ public class MyView extends View implements View.OnClickListener{
                 MainActivity.detectCollisions();
                 MainActivity.spawn();
                 drawScore(c);
-                MainActivity.procesChallenges();
                 postInvalidateDelayed(33);
+        }
+
+        if (10 == interval++) {
+            MainActivity.procesChallenges();
+            interval = 0;
         }
 
     }
