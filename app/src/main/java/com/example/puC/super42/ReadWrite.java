@@ -104,6 +104,11 @@ public class ReadWrite {
      * @param challange : the challenge to save
      */
     public void saveChallange(String challange) {
+        if (MainActivity.challengesCompleted.contains(challange))
+            return;
+        else
+            MainActivity.challengesCompleted.add(challange);
+
         Log.d("saveChallange", "started challenge=" + challange);
         File dir  = new File(c.getApplicationInfo().dataDir);
         dir.mkdir();
