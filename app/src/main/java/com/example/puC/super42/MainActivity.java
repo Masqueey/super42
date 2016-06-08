@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private static float GlobalBalSpeed = 18;
 
     private static int fortyOnes = 0;
+    private static int fortyTwos = 0;
     private static Date fortyOnesTime;
     private static ReadWrite rw;
 
@@ -240,6 +241,7 @@ public class MainActivity extends AppCompatActivity {
                     if (regularGame.fortyTwo(huidigeBal, otherBal)) {
                         regularGame.fortyTwoPoints(huidigeBal, otherBal);
                         regularGame.addAFortyTwo();
+                        fortyTwos++;
                     }
 
                     // checkt of de twee ballen optellen tot iets lager dan 42 of 42 en mergt ze dan
@@ -437,15 +439,23 @@ public class MainActivity extends AppCompatActivity {
                 long timeDiffSec = dateDiffSec(fortyOnesTime, d);
                 //timeDiffSec = timeDiffSec *4;
                 //Log.d("procesChallenges", "timeDiffSec=" + timeDiffSec);
+                Log.d("procesChallenges", "fortyOnes=" + fortyOnes);
 
-
-                if (fortyOnes == 2 && !containsSubstring(challangesCompleted, "Two 42's in a game")) {
-                    rw.saveChallange("Two 42's in a game");
-                    challengesCompleted.add("Two 42's in a game");
+                if (fortyOnes == 1 && !containsSubstring(challangesCompleted, "One 41 on the field")) {
+                    rw.saveChallange("One 41 on the field");
+                    challengesCompleted.add("One 41 on the field");
                 }
-                if (fortyOnes == 3 && !containsSubstring(challangesCompleted, "Three 42's in a game")) {
-                    rw.saveChallange("Three 42's in a game");
-                    challengesCompleted.add("Three 42's in a game");
+                if (fortyOnes == 2 && !containsSubstring(challangesCompleted, "Two 41's on the field")) {
+                    rw.saveChallange("Two 41's on the field");
+                    challengesCompleted.add("Two 41's on the field");
+                }
+                if (fortyOnes == 3 && !containsSubstring(challangesCompleted, "Three 41's on the field")) {
+                    rw.saveChallange("Three 41's on the field");
+                    challengesCompleted.add("Three 41's ion the field");
+                }
+                if (fortyOnes == 3 && !containsSubstring(challangesCompleted, "Five 41's on the field")) {
+                    rw.saveChallange("Five 41's on the field");
+                    challengesCompleted.add("Five 41's ion the field");
                 }
                 if (null == fortyOnesTime) {
                     fortyOnesTime = new Date(System.currentTimeMillis());
@@ -464,6 +474,27 @@ public class MainActivity extends AppCompatActivity {
                         challengesCompleted.add("60 seconds with one 41");
                     }
                 }
+            }
+            // Forty two's count
+            if (1 == fortyTwos && !containsSubstring(challangesCompleted, "One 42's in a game")) {
+                rw.saveChallange("One 42's in a game");
+                challengesCompleted.add("One 42's in a game");
+            }
+            if (2 == fortyTwos && !containsSubstring(challangesCompleted, "Two 42's in a game")) {
+                rw.saveChallange("Two 42's in a game");
+                challengesCompleted.add("Two 42's in a game");
+            }
+            if (3 == fortyTwos && !containsSubstring(challangesCompleted, "Three 42's in a game")) {
+                rw.saveChallange("Three 42's in a game");
+                challengesCompleted.add("Three 42's in a game");
+            }
+            if (5 == fortyTwos && !containsSubstring(challangesCompleted, "Five 42's in a game")) {
+                rw.saveChallange("Five 42's in a game");
+                challengesCompleted.add("Five 42's in a game");
+            }
+            if (10 == fortyTwos && !containsSubstring(challangesCompleted, "Ten 42's in a game")) {
+                rw.saveChallange("Ten 42's in a game");
+                challengesCompleted.add("Ten 42's in a game");
             }
         }
         if (fortyOnesTime != null && fortyOnes == 0) {

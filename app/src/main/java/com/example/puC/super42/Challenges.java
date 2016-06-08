@@ -36,8 +36,15 @@ public class Challenges extends Activity{
         challengesNotCompleted = (TextView) findViewById(R.id.challengesNotCompleted);
         ArrayList<String> allChallenges = new ArrayList<>();
         allChallenges.addAll(Arrays.asList(
+                "One 41 on the field" ,
+                "Two 41's on the field" ,
+                "Three 41's on the field" ,
+                "Five 41's on the field" ,
+                "One 42 in a game" ,
                 "Two 42's in a game" ,
                 "Three 42's in a game" ,
+                "Five 42's in a game" ,
+                "Ten 42's in a game" ,
                 "15 seconds with one 41" ,
                 "30 seconds with one 41" ,
                 "60 seconds with one 41"
