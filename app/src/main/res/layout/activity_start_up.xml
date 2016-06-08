@@ -27,4 +27,7 @@
         android:layout_alignParentEnd="true"
         android:scaleType="fitXY"
         android:background="@color/black"/>
+
+
+
 </RelativeLayout>
