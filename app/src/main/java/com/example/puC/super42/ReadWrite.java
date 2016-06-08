@@ -86,7 +86,7 @@ public class ReadWrite {
             }
             br.close();
         } catch (IOException e) {
-            Log.d("readHighscores", e.toString());
+            //Log.d("readHighscores", e.toString());
         }
         //Log.d("readHighscores", "res=" + res + " sorted=" + bubblesortScore(res));
         res = bubblesortScore(res);
@@ -100,7 +100,6 @@ public class ReadWrite {
 
     /**
      * Writes a challenge
-     *
      * @param challange : the challenge to save
      */
     public void saveChallange(String challange) {
@@ -109,7 +108,7 @@ public class ReadWrite {
         else
             MainActivity.challengesCompleted.add(challange);
 
-        Log.d("saveChallange", "started challenge=" + challange);
+        //Log.d("saveChallange", "started challenge=" + challange);
         File dir  = new File(c.getApplicationInfo().dataDir);
         dir.mkdir();
         File myFile = new File(dir, "challenges.txt");
@@ -118,7 +117,7 @@ public class ReadWrite {
                 try {
                     myFile.createNewFile();
                 } catch (Exception e) {
-                    Log.d("saveScore", "myFile.createNewFile() failed " + e.toString());
+                    //Log.d("saveScore", "myFile.createNewFile() failed " + e.toString());
                 }
             }
             FileOutputStream out = new FileOutputStream(myFile, true);
@@ -173,7 +172,7 @@ public class ReadWrite {
         while(swap){
 
             swap = false;
-
+            // Swaps s0 en s1 iff s0 < s1
             for(int i=0; i<list.size()-1; i++){
                 String s0 = list.get(i);
                 String s1 = list.get(i+1);
@@ -196,10 +195,9 @@ public class ReadWrite {
 
 
     /**
-     *
-     * @param filename
-     * @return
-     * @throws IOException
+     * @param filename : the filename of the file to read
+     * @return : the number of lines
+     * @throws IOException : an exception that can be thrown
      */
     public static int countLines(String filename) throws IOException {
         File dir  = new File(c.getApplicationInfo().dataDir);
@@ -224,6 +222,9 @@ public class ReadWrite {
         }
     }
 
+    /**
+     * Resets all the challenges by clearing the challenges.txt file
+     */
     public static void resetChallenges()  {
         File dir  = new File(c.getApplicationInfo().dataDir);
         File file = new File(dir, "challenges.txt");
