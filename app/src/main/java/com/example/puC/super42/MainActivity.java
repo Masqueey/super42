@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Power randomPowerupCreator(int i){
         i = i%3; // i = i % hoeveelheid_powerups
-        switch(2){
+        switch(i){
             case 1:  PathIncreaser pathinc = new PathIncreaser(this);               return pathinc;
             case 2:  BallSpeedDecreaser slowball = new BallSpeedDecreaser(this);    return slowball;
             default: BallSizeDecreaser smallball = new BallSizeDecreaser(this);     return smallball;
@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private Power randomPowerdownCreator(int i){
         i=i%3; // i = i % hoeveelheid_powerups
-        switch(2){
+        switch(i){
             case 1:  PathDecreaser pathdec = new PathDecreaser(this);               return pathdec;
             case 2:  BallSpeedIncreaser speedball = new BallSpeedIncreaser(this);   return speedball;
             default: BallSizeIncreaser largeball = new BallSizeIncreaser(this);;    return largeball;
