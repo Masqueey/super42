@@ -115,6 +115,8 @@ public class RegularGame {
         Intent intent = new Intent(c, GameOver.class);
         intent.putExtra("Score", points);
         intent.putExtra("FortyTwos", nrOfFortyTwos);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         c.startActivity(intent);
     }
 

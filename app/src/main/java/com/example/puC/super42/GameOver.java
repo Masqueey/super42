@@ -56,7 +56,7 @@ public class GameOver extends AppCompatActivity {
         }
 
         // Back to menu listener
-        ok = (Button) findViewById(R.id.ok);
+        ok = (Button) findViewById(R.id.MainMenu);
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

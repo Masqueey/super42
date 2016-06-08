@@ -260,4 +260,8 @@ public class Bal implements Paintable {
     public boolean equals(Bal otherBal){
         return size == otherBal.size && centerX == otherBal.centerX && centerY == otherBal.centerY && val == otherBal.val;
     }
+
+    public float getScreenRatio() {
+        return screenRatio;
+    }
 }
