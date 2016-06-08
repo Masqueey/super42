@@ -10,14 +10,10 @@ import com.example.puC.super42.MainActivity;
 public class BallSizeDecreaser extends Power {
 
     private String Description = "Small Balls";
-    private int difficulty;
-    private int duration;
     private PowerKindOf powerKindOf;
     private double previousBalSizeFactor;
     public BallSizeDecreaser(MainActivity act){
         super(act);
-        // this.difficulty = super.getDifficulty();
-      //  this.duration = super.getDuration();
         powerKindOf = PowerKindOf.POWERUP;
     }
 
@@ -29,16 +25,6 @@ public class BallSizeDecreaser extends Power {
     public String getDescription() {
         return Description;
     }
-
-    public int getDuration(){
-        return duration;
-    }
-
-    public void increaseDifficulty(){
-        difficulty++;
-        return;
-    }
-
     /**
      * Verkleint de grootte van alle ballen en verkleint de groei bij merges.
      */
@@ -55,16 +41,4 @@ public class BallSizeDecreaser extends Power {
         Log.d("revert Decrease size", "The ballSizeFactor has been set to: " + act.getBalSizeFactor());
         return;
     }
-
-    @Override
-    public void notifyPlayer() {
-
-    }
-
-    @Override
-    public String getName(){
-        return "Default power";
-    }
-
-
 }

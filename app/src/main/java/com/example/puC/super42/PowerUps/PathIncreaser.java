@@ -10,8 +10,6 @@ import com.example.puC.super42.MainActivity;
 public class PathIncreaser extends Power {
 
     private String Description = "Long Path";
-    private int difficulty;
-    private int duration;
     private PowerKindOf powerKindOf;
     private double PathLengtFactor;
     public PathIncreaser(MainActivity act){
@@ -28,14 +26,6 @@ public class PathIncreaser extends Power {
         return Description;
     }
 
-    public int getDuration(){
-        return duration;
-    }
-
-    public void increaseDifficulty(){
-        difficulty++;
-    }
-
     @Override
     public void changeGame() {
         PathLengtFactor = act.getMaxpathlengtFactor();
@@ -49,16 +39,5 @@ public class PathIncreaser extends Power {
         Log.d("revert Long Path", "The PathFactor has been set to: " + MainActivity.getMaxpathlengtFactor());
         return;
     }
-
-    @Override
-    public void notifyPlayer() {
-
-    }
-
-    @Override
-    public String getName(){
-        return "Default power";
-    }
-
 
 }
