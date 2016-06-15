@@ -41,6 +41,8 @@ public class GameOver extends AppCompatActivity {
         ReadWrite ReadWrite = new ReadWrite(GameOver.this);
         ArrayList<String> scores= ReadWrite.readHighscores();
         for (int i=0; i<10 && (i-1) < scores.size(); i++) {
+            if (scores.size() <= i)
+                break;
             String s = scores.get(i);
             highscores.append(s.replaceFirst("\\s", "\t\t") + "\n");
         }
