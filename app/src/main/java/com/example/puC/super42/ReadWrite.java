@@ -38,7 +38,7 @@ public class ReadWrite {
     public void saveScore(String score) {
         Log.d("saveScore", "started");
         File dir  = new File(c.getApplicationInfo().dataDir);
-        dir.mkdir();
+        dir.mkdirs();
         File myFile = new File(dir, "highscores.txt");
         try {
             //Log.d("saveScore", "s=" + score + " trying.. sd=" + dir.toString());
